@@ -1,0 +1,69 @@
+# i3status configuration file.
+# see "man i3status" for documentation.
+
+# It is important that this file is edited as UTF-8.
+# The following line should contain a sharp s:
+# ß
+# If the above line is not correctly displayed, fix your editor first!
+#
+# This configuration uses some fontawesome character that are available
+# through otf-font-awesome
+
+general {
+	colors = true
+	interval = 3
+}
+
+order += "ethernet _first_"
+order += "wireless _first_"
+#order += "volume master"
+order += "cpu_usage"
+order += "battery 0"
+order += "tztime local"
+
+wireless _first_ {
+	format_up = " [%quality] %ip %essid"
+	format_down = " down"
+}
+
+ethernet _first_ {
+	# if you use %speed, i3status requires root privileges
+	format_up = " %ip"
+	format_down = " down"
+	#format_up = " %ip"
+	#format_down = " down"
+}
+
+battery 0 {
+	#format = " %percentage %remaining"
+	format = "%status %percentage %remaining"
+	format_down= "No battery"
+	integer_battery_capacity = true
+	last_full_capacity = true
+	# 5 minutes remaining -> display in red
+	low_threshold = 5
+	threshold_type = "time"
+	status_full = "⚡"
+	status_chr = "⚡"
+	status_unk = "⚡"
+	status_bat = ""
+	#path = "/org/freedesktop/UPower/devices/battery_BAT%d"
+}
+
+tztime local {
+	format = "%a %d/%m/%y %H:%M"
+}
+
+cpu_usage {
+	format = " %usage"
+}
+
+disk "/" {
+	format = "%avail"
+}
+
+volume master{
+	device = "pulse"
+	format = " %volume"
+	format_muted = " %volume"
+}

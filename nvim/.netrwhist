@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =8
+let g:netrw_dirhist_8='/home/andrea/src/FSdev/part5/bloglist-frontend/src/components'
+let g:netrw_dirhist_7='/usr/share/rofi/themes'
+let g:netrw_dirhist_6='/home/andrea/.config/polybar'
+let g:netrw_dirhist_5='/home/andrea/.config'
+let g:netrw_dirhist_4='/home/andrea/.config/cava'
+let g:netrw_dirhist_3='/home/andrea/.config/gtk-3.0'
+let g:netrw_dirhist_2='/home/andrea/src/cs-e4300_testbed/scripts'
+let g:netrw_dirhist_1='/home/andrea/src/FSdev/part4/blog/controllers'
+let g:netrw_dirhist_0='/home/andrea/src/cs-e4300_testbed/scripts'
+let g:netrw_dirhist_9='/home/andrea/src/cs-e4300_testbed/apps/client_app'

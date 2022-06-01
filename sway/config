@@ -1,0 +1,354 @@
+# Modified from default config for sway
+#  default in /etc/sway/config
+# Copy this to ~/.config/sway/config and edit it to your liking.
+#
+# Read `man 5 sway` for a complete reference.
+
+### Variables
+#
+# Logo key. Use Mod1 for Alt.
+set $mod Mod4
+# Home row direction keys, like vim
+set $left h
+set $down j
+set $up k
+set $right l
+# Your preferred terminal emulator
+set $term alacritty
+# Your preferred application launcher
+# Note: pass the final command to swaymsg so that the resulting window can be opened
+# on the original workspace that the command was run on.
+#set $menu rofi -show-icons -show drun
+set $menu wofi -S drun -t $term
+
+### Output configuration
+#
+# Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
+output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+#
+# Example configuration:
+#
+#   output HDMI-A-1 resolution 1920x1080 position 1920,0
+#
+# You can get the names of your outputs by running: swaymsg -t get_outputs
+
+### Idle configuration
+#
+# Example configuration:
+#
+# exec swayidle -w \
+#          timeout 300 'swaylock -f -c 000000' \
+#          timeout 600 'swaymsg "output * dpms off"' \
+#               resume 'swaymsg "output * dpms on"' \
+#          before-sleep 'swaylock -f -c 000000'
+#
+# This will lock your screen after 300 seconds of inactivity, then turn off
+# your displays after another 300 seconds, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+
+### Input configuration
+#
+# Example configuration:
+#
+#   input "2:14:SynPS/2_Synaptics_TouchPad" {
+#       dwt enabled
+#       tap enabled
+#       natural_scroll enabled
+#       middle_emulation enabled
+#   }
+#
+# You can get the names of your inputs by running: swaymsg -t get_inputs
+# Read `man 5 sway-input` for more information about this section.
+input * {
+	#xkb_layout it
+	xkb_layout us
+	xkb_variant altgr-intl
+	xkb_options caps:super,shift:both_capslock
+}
+
+input "2:10:TPPS/2_Elan_TrackPoint" {
+	# disable while typing
+	dwt enabled
+}
+
+input "2:7:SynPS/2_Synaptics_TouchPad" {
+	# disable while typing
+	dwt enabled
+	tap enabled
+	click_method clickfinger
+	natural_scroll disabled
+	scroll_method two_finger
+	middle_emulation enabled
+	pointer_accel 0.45
+}
+
+### Key bindings
+#
+# Basics:
+#
+	# start a terminal
+	bindsym $mod+Return exec $term
+
+	# kill focused window
+	bindsym $mod+Shift+q kill
+
+	# start your launcher
+	bindsym $mod+d exec $menu
+
+	# Drag floating windows by holding down $mod and left mouse button.
+	# Resize them with right mouse button + $mod.
+	# Despite the name, also works for non-floating windows.
+	# Change normal to inverse to use left mouse button for resizing and right
+	# mouse button for dragging.
+	floating_modifier $mod normal
+
+	# reload the configuration file
+	bindsym $mod+Shift+c reload
+
+	# exit sway (logs you out of your wayland session)
+	bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+#
+# Moving around:
+#
+	# Move your focus around
+	bindsym $mod+$left focus left
+	bindsym $mod+$down focus down
+	bindsym $mod+$up focus up
+	bindsym $mod+$right focus right
+	# or use $mod+[up|down|left|right]
+	bindsym $mod+Left focus left
+	bindsym $mod+Down focus down
+	bindsym $mod+Up focus up
+	bindsym $mod+Right focus right
+
+	# _move_ the focused window with the same, but add Shift
+	bindsym $mod+Shift+$left move left
+	bindsym $mod+Shift+$down move down
+	bindsym $mod+Shift+$up move up
+	bindsym $mod+Shift+$right move right
+	# ditto, with arrow keys
+	bindsym $mod+Shift+Left move left
+	bindsym $mod+Shift+Down move down
+	bindsym $mod+Shift+Up move up
+	bindsym $mod+Shift+Right move right
+#
+# Workspaces:
+#
+	# switch to workspace
+	bindsym $mod+1 workspace 1
+	bindsym $mod+2 workspace 2
+	bindsym $mod+3 workspace 3
+	bindsym $mod+4 workspace 4
+	bindsym $mod+5 workspace 5
+	bindsym $mod+6 workspace 6
+	bindsym $mod+7 workspace 7
+	bindsym $mod+8 workspace 8
+	bindsym $mod+9 workspace 9
+	bindsym $mod+0 workspace 10
+	# move focused container to workspace
+	bindsym $mod+Shift+1 move container to workspace 1
+	bindsym $mod+Shift+2 move container to workspace 2
+	bindsym $mod+Shift+3 move container to workspace 3
+	bindsym $mod+Shift+4 move container to workspace 4
+	bindsym $mod+Shift+5 move container to workspace 5
+	bindsym $mod+Shift+6 move container to workspace 6
+	bindsym $mod+Shift+7 move container to workspace 7
+	bindsym $mod+Shift+8 move container to workspace 8
+	bindsym $mod+Shift+9 move container to workspace 9
+	bindsym $mod+Shift+0 move container to workspace 10
+	# Note: workspaces can have any name you want, not just numbers.
+	# We just use 1-10 as the default.
+#
+# Layout stuff:
+#
+	# You can "split" the current object of your focus with
+	# $mod+b or $mod+v, for horizontal and vertical splits
+	# respectively.
+	bindsym $mod+b splith
+	bindsym $mod+v splitv
+
+	# Switch the current container between different layout styles
+	bindsym $mod+s layout stacking
+	bindsym $mod+w layout tabbed
+	bindsym $mod+e layout toggle split
+
+	# Make the current focus fullscreen
+	bindsym $mod+f fullscreen
+
+	# Toggle the current focus between tiling and floating mode
+	bindsym $mod+Shift+space floating toggle
+
+	# Swap focus between the tiling area and the floating area
+	bindsym $mod+space focus mode_toggle
+
+	# move focus to the parent container
+	bindsym $mod+a focus parent
+#
+# Scratchpad:
+#
+	# Sway has a "scratchpad", which is a bag of holding for windows.
+	# You can send windows there and get them back later.
+
+	# Move the currently focused window to the scratchpad
+	bindsym $mod+Shift+minus move scratchpad
+
+	# Show the next scratchpad window or hide the focused scratchpad window.
+	# If there are multiple scratchpad windows, this command cycles through them.
+	bindsym $mod+minus scratchpad show
+#
+# Resizing containers:
+#
+mode "resize" {
+	# left will shrink the containers width
+	# right will grow the containers width
+	# up will shrink the containers height
+	# down will grow the containers height
+	bindsym $left resize shrink width 10px or 10 ppt
+	bindsym $down resize grow height 10px or 10ppt
+	bindsym $up resize shrink height 10px or 10ppt
+	bindsym $right resize grow width 10px or 10ppt
+
+	# ditto, with arrow keys
+	bindsym Left resize shrink width 10px or 10ppt
+	bindsym Down resize grow height 10px or 10ppt
+	bindsym Up resize shrink height 10px or 10ppt
+	bindsym Right resize grow width 10px or 10ppt
+
+	# return to default mode
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
+	bindsym $mod+r mode "default"
+}
+bindsym $mod+r mode "resize"
+
+#
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+####bar {
+####	position bottom
+####	status_command i3status -c ~/.config/i3status/config.awesome
+####	font pango:liberation mono 14
+####	colors {
+####		statusline #ffffff
+####		background #000000ea
+####	}
+####}
+bar {
+	swaybar_command waybar
+	status_command -
+}
+
+include /etc/sway/config.d/*
+
+#my configurations
+#---------------------------------
+
+#  GAPS
+#set $mode_gaps Gaps: (o)uter, (i)nner, (h)orizontal, (v)ertical, (t)op, (r)ight, (b)ottom, (l)eft
+# from https://github.com/Airblader/i3/wiki/Example-Configuration
+set $mode_gaps gaps (o)uter (i)nner
+set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
+set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
+bindsym $mod+Shift+g mode "$mode_gaps"
+
+mode "$mode_gaps" {
+        bindsym o      mode "$mode_gaps_outer"
+        bindsym i      mode "$mode_gaps_inner"
+        bindsym Return mode "$mode_gaps"
+        bindsym Escape mode "default"
+}
+
+mode "$mode_gaps_outer" {
+        bindsym $mod+equal  gaps outer current plus 5
+        bindsym $mod+minus gaps outer current minus 5
+        bindsym $mod+0     gaps outer current set 0
+
+        bindsym $mod+Shift+equal  gaps outer all plus 5
+        bindsym $mod+Shift+minus gaps outer all minus 5
+        bindsym $mod+Shift+0     gaps outer all set 0
+
+        bindsym Return mode "$mode_gaps"
+        bindsym Escape mode "default"
+}
+mode "$mode_gaps_inner" {
+        bindsym $mod+equal  gaps inner current plus 5
+        bindsym $mod+minus gaps inner current minus 5
+        bindsym $mod+0     gaps inner current set 0
+
+        bindsym $mod+Shift+equal  gaps inner all plus 5
+        bindsym $mod+Shift+minus gaps inner all minus 5
+        bindsym $mod+Shift+0     gaps inner all set 0
+
+        bindsym Return mode "$mode_gaps"
+        bindsym Escape mode "default"
+}
+
+#  SHORCUTS
+# screenshots
+bindsym $mod+Print exec ~/bin/screenshot.sh
+# file manager
+bindsym $mod+Shift+f exec pcmanfm-qt
+# closing windows also with the "normal" shortcut
+bindsym Mod1+F4 kill
+# volume keyboard shortcuts
+bindsym XF86AudioRaiseVolume exec printf + > /tmp/pulse_volume_manager.$DISPLAY
+bindsym XF86AudioLowerVolume exec printf - > /tmp/pulse_volume_manager.$DISPLAY
+bindsym XF86AudioMute        exec printf T > /tmp/pulse_volume_manager.$DISPLAY
+bindsym XF86AudioMicMute exec pactl set-source-mute '@DEFAULT_SOURCE@' toggle
+# brightness keyboard shortcuts
+bindsym XF86MonBrightnessDown exec printf - > /tmp/brightness_control.$DISPLAY
+bindsym XF86MonBrightnessUp   exec printf + > /tmp/brightness_control.$DISPLAY
+# alternative terminal emulator in case default one doesn't work
+bindsym $mod+Shift+Return exec xterm
+# poweroff/shutdown/reboot/...
+bindsym $mod+Shift+p exec --no-startup-id sh ~/bin/logoff_menu.sh
+# move between workspaces with ctrl+$mod+left/right
+bindsym $mod+Control+Left  workspace prev
+bindsym $mod+Control+Right workspace next
+
+#  APPEARENCE
+# add some left padding into titles
+for_window [class=".*"] title_format " %title"
+
+# class                 border  backgr. text    indicator child_border
+client.focused          #00ff00 #111111 #ffffff #555555   #000000
+client.focused_inactive #333333 #000000 #ffffff #484e50   #111111
+client.unfocused        #333333 #000000 #888888 #292d2e   #111111
+client.urgent           #2f343a #900000 #ffffff #900000   #900000
+client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
+# change the default font for windows titles
+#font pango: liberation mono Bold 13
+font pango: Dejavu Sans 13
+# put applications pop-ups in floating mode
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="bubble"] floating enable
+#for_window [window_role="task_dialog"] floating enable
+#for_window [window_role="Preferences"] floating enable
+for_window [window_type="dialog"] floating enable
+for_window [window_type="menu"] floating enable
+# gaps at left/right/bottom (not top!)
+#gaps horizontal all set 10px
+#gaps bottom all set 10px
+
+#  EXECs
+# volume manager
+exec ~/bin/volume_manager.sh
+# bluetooth
+exec blueman-applet
+# brighness manager
+exec ~/bin/brightness_manager.sh
+# power manager
+exec lxqt-powermanagement
+# notification manager
+exec mako
+# sets the background
+exec ~/bin/background_manager.sh
+# gesture manager
+exec gebaard -b
+# blue light filter
+exec gammastep-indicator -m wayland
+# network manager tray thingy
+exec nm-applet --indicator
+# import some env vars for xdg-desktop-portal-wlr
+exec "systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"

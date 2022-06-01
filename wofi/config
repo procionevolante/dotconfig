@@ -1,0 +1,8 @@
+# look in wofi(5) for generic options and wofi(7) for mode-specific options
+drun-display_generic=true
+insensitive=true
+# basically, display icons
+allow_images=true
+image_size=30
+# not sure what this does but let's copy from people on reddit
+layer=overlay

@@ -1,0 +1,76 @@
+@define-color base10 #464646;
+@define-color base00 #3a3a3a;
+@define-color base01 #3b4252;
+@define-color base02 #434c5e;
+@define-color base03 #4c566a;
+@define-color base04 #d8dee9;
+@define-color base05 #e5e9f0;
+@define-color base06 #eceff4;
+@define-color base07 #a4c3b9;
+@define-color base08 #6a85a2;
+@define-color base09 #446c92;
+@define-color base0A #c8dff6;
+@define-color base0B #cb7073;
+@define-color base0C #d59877;
+@define-color base0D #dcbb8c;
+@define-color base0E #9da98d;
+@define-color base0F #8c94ae;
+
+#entry {
+/*border-radius: 5px;*/
+padding: 5px 2px 5px 2px;
+margin: 0px 4px 0px 4px;
+}
+
+#entry:selected {
+color: @base0E;
+background-color: @base00;
+/*padding: 7px;*/
+}
+ 
+#text:selected {
+color: @base0E;
+}
+ 
+#window {
+animation-name: fadeIn;
+animation-duration: 0.4s;
+background-color: transparent;
+font-family: Liberation mono;
+font-size:15px;
+}
+
+#input {
+border: none;
+background-color: @base00;
+/*border-radius: 5px;*/
+margin: 4px 4px 8px 4px;
+}
+
+#inner-box {
+color: @base04;
+/*border-radius: 5px;*/
+/* margin-right: 180px; */
+}
+
+#outer-box {
+background-color: @base10;
+/*border-radius: 10px;*/
+margin: 3px solid rgb( 124, 131, 137);
+padding: 10px;
+box-shadow: 0px 0px 6px 1px  #0F0F0F;
+margin: 25px;
+}
+
+#scroll {
+}
+
+#text {
+color: @base04;
+background-color: transparent;
+} 
+
+#img {
+  background-color: transparent;
+  padding-right: 10px;
+}
