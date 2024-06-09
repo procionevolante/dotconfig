@@ -8,8 +8,8 @@ set mouse=nv
 set clipboard+=unnamedplus
 " wrap long lines on multiple lines
 set wrap
-" highlight current line
-set cursorline
+" highlight current line (if line wraps, only highlight line with cursor)
+set cursorline cursorlineopt=number,screenline
 " ignore case when search term only has lowercase letters. Override with \C
 set ignorecase smartcase
 
@@ -42,6 +42,20 @@ command! -bang -nargs=* BL
     \ call fzf#vim#grep(
     \   'rg --with-filename --column --line-number --no-heading --smart-case . '.fnameescape(expand('%:p')), 1,
     \   fzf#vim#with_preview({'options': '--layout reverse --query '.shellescape(<q-args>).' --with-nth=4.. --delimiter=":"'}, 'right:50%'))
+
+" with :RG, exec fzf.vim's :Rg on selection
+command -range RG call <sid>rgwrapper()
+function s:rgwrapper()
+    let selstart = getpos("'<")
+    let selend = getpos("'>")
+    if selstart[1] != selend[1]
+        echohl WarningMsg | echo "Multiple lines selected" | echohl None
+        return
+    endif
+    let selection = getline(selstart[1])[selstart[2] -1 : selend[2] -1]
+    let selection = escape(selection, '{}[]()*|:')
+    execute 'Rg' selection
+endfunction
 
 " call some commands faster
 nnoremap <leader>ff <cmd>Files<cr>
