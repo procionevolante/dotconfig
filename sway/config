@@ -284,18 +284,28 @@ mode "$mode_gaps_inner" {
         bindsym Escape mode "default"
 }
 
-#  SHORCUTS
+# laptop monitor config
+set $laptopScreen eDP-1
+# turn integrated screen on/off when the lid is opened or closed
+bindswitch --reload --locked lid:on output $laptopScreen disable
+bindswitch --reload --locked lid:off output $laptopScreen enable
+
+#  SHORTCUTS
+
 # screenshots
 bindsym $mod+Print exec ~/bin/screenshot.sh
 # file manager
 bindsym $mod+Shift+f exec pcmanfm-qt
 # closing windows also with the "normal" shortcut
 bindsym Mod1+F4 kill
-# volume keyboard shortcuts
+# volume keyboard shortcut (volume keys or $mod+ (pagUp/pagDown/Home)
 bindsym XF86AudioRaiseVolume exec printf + > /tmp/pulse_volume_manager.$DISPLAY
+bindsym $mod+Prior           exec printf + > /tmp/pulse_volume_manager.$DISPLAY
 bindsym XF86AudioLowerVolume exec printf - > /tmp/pulse_volume_manager.$DISPLAY
+bindsym $mod+Next            exec printf - > /tmp/pulse_volume_manager.$DISPLAY
 bindsym XF86AudioMute        exec printf T > /tmp/pulse_volume_manager.$DISPLAY
-bindsym XF86AudioMicMute exec pactl set-source-mute '@DEFAULT_SOURCE@' toggle
+bindsym $mod+Home            exec printf T > /tmp/pulse_volume_manager.$DISPLAY
+bindsym XF86AudioMicMute     exec pactl set-source-mute '@DEFAULT_SOURCE@' toggle
 # brightness keyboard shortcuts
 bindsym XF86MonBrightnessDown exec printf - > /tmp/brightness_control.$DISPLAY
 bindsym XF86MonBrightnessUp   exec printf + > /tmp/brightness_control.$DISPLAY
@@ -304,8 +314,12 @@ bindsym $mod+Shift+Return exec xterm
 # poweroff/shutdown/reboot/...
 bindsym $mod+Shift+p exec --no-startup-id sh ~/bin/logoff_menu.sh
 # move between workspaces with ctrl+$mod+left/right
-bindsym $mod+Control+Left  workspace prev
-bindsym $mod+Control+Right workspace next
+bindsym $mod+Control+Left  workspace prev_on_output
+bindsym $mod+Control+Right workspace next_on_output
+
+# touchpad gestures
+bindgesture swipe:4:left workspace prev_on_output
+bindgesture swipe:4:right workspace next_on_output
 
 #  APPEARENCE
 # add some left padding into titles
@@ -344,8 +358,6 @@ exec lxqt-powermanagement
 exec mako
 # sets the background
 exec ~/bin/background_manager.sh
-# gesture manager
-exec gebaard -b
 # blue light filter
 exec gammastep-indicator -m wayland
 # network manager tray thingy
