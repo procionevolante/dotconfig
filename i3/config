@@ -47,7 +47,6 @@ bindsym $mod+Shift+q kill
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
-#bindsym $mod+d exec --no-startup-id j4-dmenu-desktop --no-generic --usage-log=/home/andrea/.config/i3/j4-dmenu-desktop_usage.log
 bindsym $mod+d exec --no-startup-id rofi -show-icons -show drun
 
 # change focus
@@ -241,14 +240,17 @@ bindsym XF86MonBrightnessDown exec --no-startup-id printf - > /tmp/brightness_co
 bindsym XF86MonBrightnessUp   exec --no-startup-id printf + > /tmp/brightness_control.$DISPLAY
 # poweroff/shutdown/reboot/...
 bindsym $mod+Shift+p exec --no-startup-id sh ~/bin/logoff_menu.sh
-# volume keyboard shortcut
+# volume keyboard shortcut (volume keys or $mod+ (pagUp/pagDown/Home)
 bindsym XF86AudioRaiseVolume exec --no-startup-id printf + > /tmp/pulse_volume_manager.$DISPLAY
+bindsym $mod+Prior           exec --no-startup-id printf + > /tmp/pulse_volume_manager.$DISPLAY
 bindsym XF86AudioLowerVolume exec --no-startup-id printf - > /tmp/pulse_volume_manager.$DISPLAY
+bindsym $mod+Next            exec --no-startup-id printf - > /tmp/pulse_volume_manager.$DISPLAY
 bindsym XF86AudioMute        exec --no-startup-id printf T > /tmp/pulse_volume_manager.$DISPLAY
-bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute '@DEFAULT_SOURCE@' toggle
+bindsym $mod+Home            exec --no-startup-id printf T > /tmp/pulse_volume_manager.$DISPLAY
+bindsym XF86AudioMicMute     exec --no-startup-id pactl set-source-mute '@DEFAULT_SOURCE@' toggle
 # move between workspaces with ctrl+$mod+left/right
-bindsym $mod+Control+Left  workspace prev
-bindsym $mod+Control+Right workspace next
+bindsym $mod+Control+Left  workspace prev_on_output
+bindsym $mod+Control+Right workspace next_on_output
 
 #  APPEARENCE
 # add some left padding into titles
