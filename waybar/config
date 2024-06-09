@@ -33,7 +33,7 @@
         "tooltip-format": "<span size='x-large'>{:%Y %B}</span>\n<tt>{calendar}</tt>",
 		"today-format": "<span underline='double' font-weight='heavy'>{}</span>",
 		"format": " {:%H:%M}",
-        "format-alt": " {:%Y-%m-%d %H:%M}"
+        "format-alt": " {:%d/%m/%Y %H:%M}"
     },
     "cpu": {
         "format": " {usage:02}%",
@@ -95,7 +95,7 @@
 		
     },
     "network#eth": {
-        "interface": "enp4s0",
+        "interface": "enp*",
         "interval": 3,
         "format-wifi": "",
         "format-ethernet": " {ipaddr}",
