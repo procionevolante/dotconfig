@@ -64,6 +64,9 @@ nnoremap <leader>fl <cmd>BL<cr>
 nnoremap <leader>fg <cmd>Rg<cr>
 nnoremap <leader>tt <cmd>tab split<cr>
 
+"clear search highlighting on ^L
+nmap <silent> <C-L> <C-L>:nohlsearch<CR>:match<CR>:diffupdate<CR>
+
 function! s:startCompletions()
     packadd coc.nvim
     source ~/.config/nvim/cocrc.vim
