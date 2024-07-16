@@ -1,0 +1,8 @@
+{
+  // to edit this file, type :CocConfig in vim
+  // make clangd never edit change included headers by itself
+  // (ie don't let it edit files by itself)
+  "clangd.arguments" : [  "--header-insertion=never" "--log=verbose" ],
+  // do not show completions all the time but only when pressing <tab>
+  "suggest.autoTrigger": "trigger",
+}

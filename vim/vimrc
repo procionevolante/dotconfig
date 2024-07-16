@@ -1,0 +1,200 @@
+set nocp
+set number
+set shiftwidth=4 tabstop=4
+"set guifont=Terminus:h15
+set guifont=Consolas:h12
+" higlight current line (if line wraps, only higlight line with cursor)
+set cursorline cursorlineopt=number,screenline
+" do not keep a file open hidden after it has been closed but vim is still open
+set nohidden
+" display selection size
+set showcmd
+" always display the status line (even when only 1 file open)
+set laststatus=2
+" display ruler (column and line number on window' bottom-right)
+set ruler
+" highlight search
+set hlsearch
+" ignore case when searching only lowercase letter. override with \C / \c
+set ignorecase smartcase
+" search while typing
+set incsearch
+" show search count
+set shortmess-=S
+" make mouse work in normal and visual mode
+set mouse=nv
+" use system clipboard for yank/paste
+set clipboard+=unnamed
+" open vertical splits on the right instead of left, and horizontal splits down
+set splitright splitbelow
+
+" for all these variables types check
+" https://vim.fandom.com/wiki/Get_the_name_of_the_current_file
+if (expand('%:t') =~ '^Makefile')
+    " use TABs in makefiles
+    set noexpandtab
+else
+    " alas, we have to set this otherwise codesharing won't work well on all
+    " target PCs
+    set expandtab
+endif
+
+" Plug's plugins (dir for these is passed as argument)
+if (has('win32'))
+  call plug#begin($USERPROFILE . '\windows-vim\plugged')
+else
+  call plug#begin('~/.vim/plugged')
+endif
+Plug 'tpope/vim-fugitive'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'sainnhe/sonokai'
+Plug 'rafi/awesome-vim-colorschemes'
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
+Plug 'sheerun/vim-polyglot'
+call plug#end()
+
+" indentation rules when working on company code
+" Needs to be redone here because polyglot tries to be smart and sets
+" expandtab according to the 1st file you open
+if (has('win32') . expand('%:p') =~ '\v0/c/Users/'.$USER.'/|1C:\\Users\\'.$UserName.'\\')
+    set shiftwidth=2 tabstop=2
+    if (expand('%:t') =~ '^(^Makefile)')
+      set expandtab
+    endif
+endif
+
+" Improved BLines with preview shamelessly copied from junegunn/fzf.vim/issues/374
+" doesn't work on win32 probably because there rg can't be found
+command! -bang -nargs=* BL
+    \ call fzf#vim#grep(
+    \   'rg --with-filename --column --line-number --no-heading --smart-case . '.fnameescape(expand('%:p')), 1,
+    \   fzf#vim#with_preview({'options': '--layout reverse --query '.shellescape(<q-args>).' --with-nth=4.. --delimiter=":"'}, 'right:50%'))
+
+" with :RG, exec fzf.vim's :Rg on selection
+command -range RG call <sid>rgwrapper()
+function! s:rgwrapper()
+    let selstart = getpos("'<")
+    let selend = getpos("'>")
+    if selstart[1] != selend[1]
+        echohl WarningMsg | echo "Multiple lines selected" | echohl None
+        return
+    endif
+    let selection = getline(selstart[1])[selstart[2] -1 : selend[2] -1]
+    let selection = escape(selection, '{}[]()*|:')
+    execute 'Rg' selection
+endfunction
+
+" like :GitFiles, but for svn and more stupid (alas I'm not a vim master yet)
+function! s:svnFiles()
+    let repodir = getcwd() " assume PWD is the dir with .svn/
+    " need to set LC_CTYPE otherwise svn complains when launched from windows
+    let wrapcfg = fzf#vim#with_preview({'source': 'bash -c "env LC_CTYPE=it_IT.UTF-8 svn list -R |  grep -vE \"[\\/]$\""',
+         \ 'dir': repodir,
+         \ 'options':'-m --prompt "SvnFiles> "'})
+
+    return fzf#run(fzf#wrap('svnfiles', wrapcfg, 0))
+endfunction
+command! -bang SvnFiles call <sid>svnFiles()
+
+" fzf.vim command(s) without having to type ':....'
+nnoremap <leader>ff <cmd>Files<cr>
+nnoremap <leader>gf <cmd>GitFiles<cr>
+nnoremap <leader>sf <cmd>SvnFiles<cr>
+nnoremap <leader>fl <cmd>BL<cr>
+nnoremap <leader>bl <cmd>BLines<cr>
+nnoremap <leader>fg <cmd>Rg<cr>
+" this reads the previous selection for some reason, TODO investigate
+"vnoremap <leader>fg <cmd>RG<cr>
+" additional key bindings
+nnoremap <leader>tt <cmd>tab split<cr>
+
+"clear search highlighting on ^L
+nmap <silent> <C-L> <C-L>:nohlsearch<CR>:match<CR>:diffupdate<CR>
+
+" colorscheme & styling personalisation
+augroup style_override
+  autocmd!
+  " yellow line numbers
+  autocmd ColorScheme sonokai highlight LineNr guifg=Yellow ctermfg=Yellow
+  " selection inverts text background/foreground
+  autocmd ColorScheme sonokai highlight Visual gui=inverse cterm=inverse
+  autocmd ColorScheme molokai highlight LineNr guifg=Yellow ctermfg=Yellow
+  autocmd ColorScheme molokai highlight Visual gui=inverse cterm=inverse
+  autocmd ColorScheme molokai unlet $BAT_THEME
+  "autocmd ColorScheme molokai let g:fzf_colors = {}
+  " instead of underline, invert color in the cursorline number
+  autocmd ColorScheme slate highlight CursorLineNr cterm=inverse gui=inverse
+  autocmd ColorScheme slate highlight CursorLine ctermbg=Black cterm=NONE guibg=#303030
+  " use terminal default (transparent) background
+  autocmd ColorScheme slate highlight Normal guibg=CLEAR
+  autocmd ColorScheme slate highlight EndOfBuffer guibg=CLEAR
+  autocmd ColorScheme onehalflight let $BAT_THEME = 'OneHalfLight'
+  " colors "which adapt to the colorscheme" adapted from junegunn/fzf.vim/issues/1509
+  autocmd ColorScheme onehalflight,github let g:fzf_colors = {
+    \ 'hl':      ['fg', 'Statement'],
+    \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+    \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+    \ 'hl+':     ['fg', 'Statement'],
+    \ 'info':    ['fg', 'PreProc'],
+    \ 'border':  ['fg', 'Ignore'],
+    \ 'prompt':  ['fg', 'Conditional'],
+    \ 'pointer': ['fg', 'Exception'],
+    \ 'marker':  ['fg', 'Keyword'],
+    \ 'spinner': ['fg', 'Label'],
+    \ 'header':  ['fg', 'EndOfBuffer'] }
+augroup END
+
+if (has('gui'))
+  " gvim graphical options
+  " no toolbar
+  set guioptions-=T
+  "no scrollbars
+  set guioptions-=r
+  set guioptions-=R
+  set guioptions-=l
+  set guioptions-=L
+  colorscheme onehalflight
+elseif (exists('+termguicolors') && $TERM =~ '-256color$' )
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors " note that slate colorscheme with this is terrible
+  let g:sonokai_style = 'andromeda'
+  let g:sonokai_better_performance = 1
+  let g:sonokai_transparent_background = 1
+  let g:sonokai_disable_italic_comment = 1
+  " how to emphatize current word (ex. coc.nvim marks all occurences of same
+  " variable/function in this way)
+  let g:sonokai_current_word = 'underline'
+  colorscheme sonokai " with the modifications in style_override
+elseif has ('nvim')
+  colorscheme slate
+else
+  colorscheme default
+endif
+
+" hack to make :Rg work on win32
+if (has('win32'))
+  " call Rg using bash -c "exec rg ..."
+  "delcommand Rg
+  function MyRg(tosearch)
+    let cmd = "exec /ucrt64/bin/rg --column --line-number --no-heading --color=always --smart-case -- '" . a:tosearch . "'"
+    let cmd = "bash -c \"" . cmd ."\""
+
+    call fzf#vim#grep(cmd, fzf#vim#with_preview(), 0)
+  endfunction
+" command! -bang -nargs=* BB call MyRg(fzf#shellescape(<q-args>))
+  command! -bang -nargs=* Rg call MyRg(escape(<q-args>, "'\\"))
+  
+" command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".fzf#shellescape(<q-args>), \
+"   fzf#vim#with_preview(), \
+"   <bang>0)
+endif
+
+" CoC conf (completions manager) in separate file so vimrc is not huge
+if (has('win32'))
+  exe 'source' 'C:\msys64\home\'.$UserName.'\.vim\cocrc.vim'
+else
+  source ~/.vim/cocrc.vim
+endif
