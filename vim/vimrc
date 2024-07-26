@@ -110,10 +110,18 @@ function! s:svnFiles()
 endfunction
 command! -bang SvnFiles call <sid>svnFiles()
 
+" invoke :SvnFiles or :GitFiles accordingly
+function! s:repoFiles()
+  if isdirectory('.svn')
+    exe 'SvnFiles'
+  else
+    exe 'GitFiles'
+  endif
+endfunction
+
 " fzf.vim command(s) without having to type ':....'
 nnoremap <leader>ff <cmd>Files<cr>
-nnoremap <leader>gf <cmd>GitFiles<cr>
-nnoremap <leader>sf <cmd>SvnFiles<cr>
+nnoremap <leader>gf <cmd>call <sid>repoFiles()<cr>
 nnoremap <leader>fl <cmd>BL<cr>
 nnoremap <leader>bl <cmd>BLines<cr>
 nnoremap <leader>fg <cmd>Rg<cr>
