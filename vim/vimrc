@@ -90,7 +90,8 @@ endfunction
 function! s:svnFiles()
     let repodir = getcwd() " assume PWD is the dir with .svn/
     " need to set LC_CTYPE otherwise svn complains when launched from windows
-    let wrapcfg = fzf#vim#with_preview({'source': 'bash -c "env LC_CTYPE=it_IT.UTF-8 svn list -R |  grep -vE \"[\\/]$\""',
+    let wrapcfg = fzf#vim#with_preview(
+         \{'source': 'bash -c "env LC_CTYPE=it_IT.UTF-8 svn ls -R | grep -vE \"[\\/]$\""',
          \ 'dir': repodir,
          \ 'options':'-m --prompt "SvnFiles> "'})
 
