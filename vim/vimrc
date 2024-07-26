@@ -39,6 +39,17 @@ else
     set expandtab
 endif
 
+" change cursor shape to line while editing
+if (!has('gui') && !has('nvim') && $TERM =~ '\v^(xterm|tmux|screen)')
+  augroup myCursor
+    autocmd!
+    autocmd VimEnter * silent !echo -ne "\e[2 q"
+    autocmd VimLeave * silent !echo -ne "\e[2 q"
+  augroup END
+  let &t_SI = "\e[6 q"
+  let &t_EI = "\e[2 q"
+endif
+
 " Plug's plugins (dir for these is passed as argument)
 if (has('win32'))
   call plug#begin($USERPROFILE . '\windows-vim\plugged')
