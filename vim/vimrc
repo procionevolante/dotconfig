@@ -151,6 +151,9 @@ augroup style_override
   autocmd ColorScheme slate highlight Normal guibg=CLEAR
   autocmd ColorScheme slate highlight EndOfBuffer guibg=CLEAR
   autocmd ColorScheme onehalflight let $BAT_THEME = 'OneHalfLight'
+  autocmd ColorScheme onehalflight highlight MatchParen term=reverse cterm=bold
+        \ ctermfg=233 ctermbg=208 gui=bold guifg=#000000 guibg=#FD971F " like molokai
+  autocmd ColorScheme onehalflight highlight CocHighlightText cterm=underline gui=underline
   " colors "which adapt to the colorscheme" adapted from junegunn/fzf.vim/issues/1509
   autocmd ColorScheme onehalflight,github let g:fzf_colors = {
     \ 'hl':      ['fg', 'Statement'],
@@ -165,6 +168,13 @@ augroup style_override
     \ 'spinner': ['fg', 'Label'],
     \ 'header':  ['fg', 'EndOfBuffer'] }
 augroup END
+let g:sonokai_style = 'andromeda'
+let g:sonokai_better_performance = 1
+let g:sonokai_transparent_background = 1
+let g:sonokai_disable_italic_comment = 1
+" how to emphatize current word in sonokai (ex. coc.nvim marks all occurences of same
+" variable/function in this way)
+let g:sonokai_current_word = 'underline'
 
 if (has('gui'))
   " gvim graphical options
@@ -180,14 +190,7 @@ elseif (exists('+termguicolors') && $TERM =~ '-256color$' )
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   set termguicolors " note that slate colorscheme with this is terrible
-  let g:sonokai_style = 'andromeda'
-  let g:sonokai_better_performance = 1
-  let g:sonokai_transparent_background = 1
-  let g:sonokai_disable_italic_comment = 1
-  " how to emphatize current word (ex. coc.nvim marks all occurences of same
-  " variable/function in this way)
-  let g:sonokai_current_word = 'underline'
-  colorscheme sonokai " with the modifications in style_override
+  colorscheme molokai
 elseif has ('nvim')
   colorscheme slate
 else
