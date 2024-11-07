@@ -14,8 +14,18 @@ cmus() {
 	killall cmusfm
 }
 
+# add my scripts to PATH
+if [[ "$PATH" != *$HOME/bin* ]]; then
+    export PATH="$PATH:$HOME/bin"
+fi
+# fuzzy finder
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
 # some decent default options for the less pager
 export LESS='iFR'
+# shell history configuration
+export HISTCONTROL=ignorespace
+export HISTSIZE=10000
 
 # prevents unattended shutdowns
 alias poweroff='read -p "POWEROFF. You sure [y/n]? " -n 1 a; [ "$a" = y ] && poweroff'
