@@ -14,6 +14,9 @@ cmus() {
 	killall cmusfm
 }
 
+# some decent default options for the less pager
+export LESS='iFR'
+
 # prevents unattended shutdowns
 alias poweroff='read -p "POWEROFF. You sure [y/n]? " -n 1 a; [ "$a" = y ] && poweroff'
 # use neovim in place of vim
