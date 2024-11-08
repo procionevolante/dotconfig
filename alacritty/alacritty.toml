@@ -3,6 +3,9 @@ animation = "EaseOutExpo"
 command = "None"
 duration = 0
 
+[selection]
+save_to_clipboard = true
+
 # helmholtz color scheme from mintty:
 # https://gist.github.com/przemoc/1d8e27c08b9e9fefda7d14baca36ef01
 [colors.bright]
