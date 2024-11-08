@@ -28,8 +28,8 @@ background = "#000000"
 foreground = "#ffffff"
 
 [cursor]
-blinking = "Off"
-shape = "Block"
+style.blinking = "Off"
+style.shape = "Block"
 
 [font]
 size = 15.0
