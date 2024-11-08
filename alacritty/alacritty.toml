@@ -3,29 +3,31 @@ animation = "EaseOutExpo"
 command = "None"
 duration = 0
 
+# helmholtz color scheme from mintty:
+# https://gist.github.com/przemoc/1d8e27c08b9e9fefda7d14baca36ef01
 [colors.bright]
-black = "#7f7f7f"
-blue = "#5c5cff"
-cyan = "#00ffff"
-green = "#00ff00"
-magenta = "#ff00ff"
-red = "#ff0000"
-white = "#ffffff"
-yellow = "#ffff00"
+black = "#606060"
+blue = "#7D97FF"
+cyan = "#00F0F0"
+green = "#00F200"
+magenta = "#FF70FF"
+red = "#FF7676"
+white = "#FFFFFF"
+yellow = "#F2F200"
 
 [colors.normal]
 black = "#000000"
-blue = "#0000ee"
-cyan = "#00cdcd"
-green = "#00cd00"
-magenta = "#cd00cd"
-red = "#cd0000"
-white = "#e5e5e5"
-yellow = "#cdcd00"
+blue = "#005DFF"
+cyan = "#00A89A"
+green = "#1CA800"
+magenta = "#B148C6"
+red = "#D42C3A"
+white = "#BFBFBF"
+yellow = "#C0A000"
 
 [colors.primary]
 background = "#000000"
-foreground = "#ffffff"
+foreground = "#FFFFFF"
 
 [cursor]
 style.blinking = "Off"
