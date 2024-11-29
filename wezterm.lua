@@ -10,8 +10,14 @@ local config = wezterm.config_builder()
 
 -- modify config obj to set configuration
 
-config.color_scheme = 'Hardcore (Gogh)'
-config.colors = { foreground = '#fbfbfb' }
+config.color_scheme = 'Monokai Vivid'
+config.colors = {
+    foreground = '#fbfbfb',
+    background = '#000000',
+
+    cursor_bg = '#ffffff',
+    cursor_fg = '#000000',
+}
 config.enable_scroll_bar = false
 
 -- run WSL if on windows
