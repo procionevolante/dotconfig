@@ -74,7 +74,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'sainnhe/sonokai'
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'sheerun/vim-polyglot'
@@ -95,7 +94,7 @@ endif
 command! -bang -nargs=* BL
     \ call fzf#vim#grep(
     \   'rg --with-filename --column --line-number --no-heading --smart-case . '.fnameescape(expand('%:p')), 1,
-    \   fzf#vim#with_preview({'options': '--layout reverse --query '.shellescape(<q-args>).' --with-nth=4.. --delimiter=":"'}, 'right:50%'))
+    \   fzf#vim#with_preview({'options': '--query '.shellescape(<q-args>).' --with-nth=4.. --delimiter=":"'}, 'right:50%'))
 
 " with :RG, exec fzf.vim's :Rg on selection
 command -range RG call <sid>rgwrapper()
@@ -114,7 +113,6 @@ endfunction
 " like :GitFiles, but for svn and more stupid (alas I'm not a vim master yet)
 function! s:svnFiles()
     let repodir = getcwd() " assume PWD is the dir with .svn/
-    " need to set LC_CTYPE otherwise svn complains when launched from windows
     let wrapcfg = fzf#vim#with_preview(
          \{'source': "svn ls -R | grep -vEe '\\$' -e '/$'",
          \ 'dir': repodir,
@@ -150,10 +148,10 @@ nmap <silent> <C-L> <C-L>:nohlsearch<CR>:match<CR>:diffupdate<CR>
 " colorscheme & styling personalisation
 augroup style_override
   autocmd!
+  " use underline to highlight word in coc
+  autocmd ColorScheme * highlight CocHighlightText cterm=underline gui=underline
   " yellow line numbers
-  autocmd ColorScheme sonokai highlight LineNr guifg=Yellow ctermfg=Yellow
   " selection inverts text background/foreground
-  autocmd ColorScheme sonokai highlight Visual gui=inverse cterm=inverse
   autocmd ColorScheme molokai highlight LineNr guifg=Yellow ctermfg=Yellow
   autocmd ColorScheme molokai highlight Visual gui=inverse cterm=inverse
   autocmd ColorScheme molokai unlet $BAT_THEME
@@ -167,7 +165,6 @@ augroup style_override
   autocmd ColorScheme onehalflight let $BAT_THEME = 'OneHalfLight'
   autocmd ColorScheme onehalflight highlight MatchParen term=reverse cterm=bold
         \ ctermfg=233 ctermbg=208 gui=bold guifg=#000000 guibg=#FD971F " like molokai
-  autocmd ColorScheme onehalflight highlight CocHighlightText cterm=underline gui=underline
   " colors "which adapt to the colorscheme" adapted from junegunn/fzf.vim/issues/1509
   autocmd ColorScheme onehalflight,github let g:fzf_colors = {
     \ 'hl':      ['fg', 'Statement'],
@@ -182,13 +179,6 @@ augroup style_override
     \ 'spinner': ['fg', 'Label'],
     \ 'header':  ['fg', 'EndOfBuffer'] }
 augroup END
-let g:sonokai_style = 'andromeda'
-let g:sonokai_better_performance = 1
-let g:sonokai_transparent_background = 1
-let g:sonokai_disable_italic_comment = 1
-" how to emphatize current word in sonokai (ex. coc.nvim marks all occurences of same
-" variable/function in this way)
-let g:sonokai_current_word = 'underline'
 
 if (has('gui'))
   " gvim graphical options
