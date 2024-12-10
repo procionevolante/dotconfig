@@ -25,8 +25,22 @@ set shortmess-=S
 set mouse=nv
 " use system clipboard for yank/paste
 set clipboard+=unnamed
+" nvim WSL clipboard provider setup from `:help clipboard-wsl`
+if (has('nvim') && $WSLENV != "")
+    let g:clipboard = {
+        \   'name': 'WslClipboard',
+        \   'copy': { '+': 'clip.exe', '*': 'clip.exe', },
+        \   'paste': {
+        \      '+': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+        \      '*': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+        \   },
+        \   'cache_enabled': 0,
+        \ }
+endif
 " open vertical splits on the right instead of left, and horizontal splits down
 set splitright splitbelow
+" Don't bother tools which don't save text files properly (like eclipse)
+set nofixeol
 
 " for all these variables types check
 " https://vim.fandom.com/wiki/Get_the_name_of_the_current_file
@@ -69,7 +83,7 @@ call plug#end()
 " indentation rules when working on company code
 " Needs to be redone here because polyglot tries to be smart and sets
 " expandtab according to the 1st file you open
-if (has('win32') . expand('%:p') =~ '\v0/c/Users/'.$USER.'/|1C:\\Users\\'.$UserName.'\\')
+if (has('win32') . expand('%:p') =~ '\v0(/mnt)?/c/Users/'.$USER.'/|1C:\\Users\\'.$UserName.'\\')
     set shiftwidth=2 tabstop=2
     if (expand('%:t') =~ '^(^Makefile)')
       set expandtab
@@ -102,7 +116,7 @@ function! s:svnFiles()
     let repodir = getcwd() " assume PWD is the dir with .svn/
     " need to set LC_CTYPE otherwise svn complains when launched from windows
     let wrapcfg = fzf#vim#with_preview(
-         \{'source': 'bash -c "env LC_CTYPE=it_IT.UTF-8 svn ls -R | grep -vE \"[\\/]$\""',
+         \{'source': "svn ls -R | grep -vEe '\\$' -e '/$'",
          \ 'dir': repodir,
          \ 'options':'-m --prompt "SvnFiles> "'})
 
@@ -186,7 +200,7 @@ if (has('gui'))
   set guioptions-=l
   set guioptions-=L
   colorscheme onehalflight
-elseif (exists('+termguicolors') && $TERM =~ '-256color$' )
+elseif (exists('+termguicolors') && ($TERM =~ '-256color$' || $TERM == 'wezterm'))
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
   set termguicolors " note that slate colorscheme with this is terrible
