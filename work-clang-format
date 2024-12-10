@@ -1,0 +1,34 @@
+# ------------------------
+# clang-format config file
+# ------------------------
+
+# To use this file rename it to .clang-format and move it to the project root
+#
+# To change the config check out
+# https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+
+BasedOnStyle: LLVM
+
+# use tab width 2 but avoid \t char so formatting doesn't break on external PCs
+IndentWidth: 2
+UseTab: Never
+
+# always move to a new line
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortFunctionsOnASingleLine: None
+AllowShortBlocksOnASingleLine: Never
+
+# always use {} in if, else, for, do and while. Always put { and } on a new line
+# note: documentation recommends extra care because InsertBraces might not
+# always work well. That's why this is not set to true. Just do it manually
+# https://clang.llvm.org/docs/ClangFormatStyleOptions.html#insertbraces
+InsertBraces: false
+BreakBeforeBraces: Allman
+
+# indent things correctly
+IndentCaseLabels: true
+
+# align things correctly
+DerivePointerAlignment: true
+PointerAlignment: Right
+AlignArrayOfStructures: Left
