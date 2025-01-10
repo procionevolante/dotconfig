@@ -11,7 +11,32 @@ define peconnect
     set remotetimeout 60
     # - - -
 
-    target remote localhost:7244
+    if $argc == 0
+        set $pecore = 0
+    else
+        set $pecore = $arg0
+    end
+    eval "target remote localhost:%d", 7244 + (2 * $pecore)
+    eval "monitor selectcore %d", $pecore
+end
+document peconnect
+Connect to PEmicro's gdb server
+    param. 0: core# (default = 0)
+end
+
+define-prefix pemultiload
+define pemultiload start
+    monitor startmultiload
+end
+define pemultiload end
+    monitor endmultiload
+end
+document pemultiload
+Start/end a multiple file load on a PEmicro debug probe
+While multiload is active, each `load` will write the binary only on RAM.
+Actual flashing is done once multiload ends.
+
+Useful on multi-core systems when flashing erases the whole ROM
 end
 
 # colored prompt
