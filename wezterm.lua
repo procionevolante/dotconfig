@@ -10,6 +10,7 @@ local config = wezterm.config_builder()
 
 -- modify config obj to set configuration
 
+-- styling
 config.color_scheme = 'Monokai Vivid'
 config.colors = {
     foreground = '#fbfbfb',
@@ -19,15 +20,14 @@ config.colors = {
     cursor_fg = '#000000',
 }
 config.enable_scroll_bar = false
+config.hide_tab_bar_if_only_one_tab = true
+config.font = wezterm.font('Cascadia Mono')
+config.font_size = 11.0
 
 -- run WSL if on windows
 if string.find(wezterm.target_triple, 'windows') then
     config.default_domain = 'WSL:Ubuntu-24.04'
 end
-
-config.font = wezterm.font('Cascadia Mono')
-config.font_size = 11.0
-config.hide_tab_bar_if_only_one_tab = true
 
 -- return modified config
 return config
