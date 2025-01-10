@@ -15,7 +15,7 @@ define peconnect
 end
 
 # colored prompt
-set prompt \033[1m(gdb) \033[0m
+set prompt \033[0;1m(gdb) \033[0m
 
 # large listing
 set listsize 21
