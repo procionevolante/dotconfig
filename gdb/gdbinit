@@ -46,45 +46,44 @@ set prompt \033[0;1m(gdb) \033[0m
 set listsize 21
 
 # styling
-set style enabled on
+set style disassembler enabled on
 set style sources on
+set style enabled on
 
 # print prompt like LLDB's
-# this needs to mess a bit with `style enabled` to work
-define ll
+# this needs to mess a bit with `style enabled` to work,
+# but doesn't need # python integration
+define lldb-prompt-native
+    # `l .` needed to set "current line" so that `l -` works as we want
+    # Try various strategies to hide its output line:
+    # 1. save position to overwrite output later (might not work during scroll)
+    # 2. set text output as invisible (fg color = bg color)
     set style enabled off
-    # black fg color for "invisible text"
-    echo \033[30m
-    # l . needed to set "current line" so that `l -` works as we want
-    with listsize 1 -- l .
-    echo \033[0m
+    echo \0337\033[8m
+    with listsize 1 -- with style enabled off -- l .
+    # restore saved cursor position, erase line and restore text format
+    echo \0338\033[0K\033[1K\033[28m\033[0m
     with listsize 10 -- with style enabled on -- l -
     echo \033[32m
     set style enabled on
     # line number is still printed with previous colors
     with listsize 1 -- l .
+    echo \033[0m
     with listsize 10 -- l
 end
-# alternative which assumes that listing lines don't wrap and listsize == 21
-#define ll
-#   with listsize 21 -- list .
-#   !printf "\e[11F\e[7m>>\e[11E\e[0m"
-# gdb's printf and echo filter out cursor-moving escape sequences...
-# this otherwise would be much faster than invoking a shell
-#   printf "\e[11F\e[7m>>\e[11E\e[0m"
-#end
 
 # invoke LLDB's prompt like when lldb invokes it
+source ~/src/dotconfig/gdb/lldbPrompt.py
 define hook-stop
-    ll
+    lldb-prompt
 end
 define hookpost-frame
-    ll
+    lldb-prompt
 end
 define hookpost-up
-    ll
+    lldb-prompt
 end
 define hookpost-down
-    ll
+    lldb-prompt
 end
 
