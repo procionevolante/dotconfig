@@ -1,3 +1,9 @@
+#
+# ~/.gdbinit
+#
+# GDB init script
+# See gdbinit(5) for more info
+
 # command history
 set history save on
 set history size 10000
