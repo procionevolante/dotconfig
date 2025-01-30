@@ -46,7 +46,8 @@ Useful on multi-core systems when flashing erases the whole ROM
 end
 
 # colored prompt
-set prompt \033[0;1m(gdb) \033[0m
+# (\[ and \] needed by gdb to calculate the prompt's print size)
+set extended-prompt \[\e[0;1m\](gdb) \[\e[0m\]
 
 # large listing
 set listsize 21
