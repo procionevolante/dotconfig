@@ -60,7 +60,7 @@ set style enabled on
 # print prompt like LLDB's
 # this needs to mess a bit with `style enabled` to work,
 # but doesn't need # python integration
-define lldb-prompt-native
+define native-lldb-prompt
     # `l .` needed to set "current line" so that `l -` works as we want
     # Try various strategies to hide its output line:
     # 1. save position to overwrite output later (might not work during scroll)
@@ -79,8 +79,11 @@ define lldb-prompt-native
     with listsize 10 -- l
 end
 
-# invoke LLDB's prompt like when lldb invokes it
+# LLDB-like prompt using python integration
+# sometimes colors don't work (gdb bug?)
+# `set style enabled on` + `list` seem to fix the issue
 source ~/src/dotconfig/gdb/lldbPrompt.py
+
 define hook-stop
     lldb-prompt
 end
