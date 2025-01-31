@@ -1,0 +1,24 @@
+# vim: filetype=gdb
+#
+# Set of convenience variables useful when debugging FW on an NXP S32K3xx MCU
+#
+# Addresses are correct but the types are sourced from the standard NXP
+# libraries, which you may not be using
+
+# standard ARM registers
+# same address, yet different structure...
+set $nvic = ((S32_NVIC_Type *) 0xe000e000)
+set $scb = ((S32_SCB_Type *) 0xe000e000)
+
+# ADC
+set $adc0 = ((ADC_Type *) 0x400a0000)
+set $adc1 = ((ADC_Type *) 0x400a4000)
+set $adc2 = ((ADC_Type *) 0x400a8000)
+
+# timers
+set $pit0 = ((PIT_Type *) 0x400B0000)
+set $pit1 = ((PIT_Type *) 0x400B4000)
+set $pit2 = ((PIT_Type *) 0x402FC000)
+
+# Interrupt Router CP (core to core interrupt generation/status)
+set $ircp=((IPC_MSCM_IRCPnIRx_Type *) 0x40260200)
