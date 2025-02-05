@@ -1,4 +1,4 @@
-#!/bin/python3/
+#!/bin/python3
 
 # Sets convenience variables useful when debugging FW on an NXP S32K3xx MCU
 #
