@@ -21,8 +21,11 @@ PROMPT_COMMAND='_print_err_code'
 if [[ "$PATH" != *$HOME/bin* ]]; then
     export PATH="$PATH:$HOME/bin"
 fi
-# fuzzy finder
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# Set up fzf (fuzzy finder) key bindings and fuzzy completion
+if which fzf &> /dev/null; then
+    eval "$(fzf --bash)"
+fi
 
 # some decent default options for the less pager
 export LESS='iFR'
