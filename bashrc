@@ -17,11 +17,6 @@ PS1='\[\e[32m\]\u@\h \[\e[0m\]\A \[\e[33m\]\w\[\e[0m\]\n\$ '
 # prepend error code to prompt if $? != 0
 PROMPT_COMMAND='_print_err_code'
 
-cmus() {
-	/bin/cmus "$@"
-	killall cmusfm
-}
-
 # add my scripts to PATH
 if [[ "$PATH" != *$HOME/bin* ]]; then
     export PATH="$PATH:$HOME/bin"
