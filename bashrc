@@ -5,9 +5,17 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+_print_err_code() {
+    local e=$?
+    if [ $e -ne 0 ]; then
+        echo -ne "\e[31m$e\e[0m "
+    fi
+}
 # all color escape seq: https://stackoverflow.com/questions/4842424
 # (also in console_codes(4) manpage)
-PS1='$(e=$?;[ $e -ne 0 ] && echo -e "\e[31m$e ")\e[32m\u@\h \e[0m\A \e[33m\w\e[0m\n\$ '
+PS1='\[\e[32m\]\u@\h \[\e[0m\]\A \[\e[33m\]\w\[\e[0m\]\n\$ '
+# prepend error code to prompt if $? != 0
+PROMPT_COMMAND='_print_err_code'
 
 cmus() {
 	/bin/cmus "$@"
