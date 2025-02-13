@@ -22,7 +22,7 @@ define peconnect
     else
         set $pecore = $arg0
     end
-    eval "target remote localhost:%d", 7244 + (2 * $pecore)
+    eval "target extended-remote localhost:%d", 7244 + (2 * $pecore)
     eval "monitor selectcore %d", $pecore
 end
 document peconnect
