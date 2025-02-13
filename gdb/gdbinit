@@ -88,12 +88,16 @@ define native-lldb-prompt
 end
 
 # LLDB-like prompt using python integration
-# sometimes colors don't work (gdb bug?)
-# `set style enabled on` + `list` seem to fix the issue
 source ~/src/dotconfig/gdb/lldbPrompt.py
 
 define hook-stop
     lldb-prompt
+
+    # workaround for gdb bug to get styled sources on next executions
+    # see sourceware.org/bugzilla/show_bug.cgi?id=32676
+    maintenance flush source-cache
+    # hide "Source cache flushed.\n" message
+    printf "\e[1F                     \r"
 end
 define hookpost-frame
     lldb-prompt
