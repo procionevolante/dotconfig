@@ -45,6 +45,14 @@ Actual flashing is done once multiload ends.
 Useful on multi-core systems when flashing erases the whole ROM
 end
 
+define rregs-nxp
+    source ~/src/dotconfig/gdb/nxp-s32k3-memreg.py
+end
+document rregs-nxp
+Read REGisterS definitions (NXP)
+Set convenience variables that aid in reading registers in NXP micros
+end
+
 # colored prompt
 # (\[ and \] needed by gdb to calculate the prompt's print size)
 set extended-prompt \[\e[0;1m\](gdb) \[\e[0m\]
