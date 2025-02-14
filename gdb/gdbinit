@@ -8,6 +8,8 @@
 set history save on
 set history size 10000
 set history filename ~/.gdb_history
+# print structs in a better aligned way
+set print pretty on
 
 define peconnect
     # copied from s32ds -> run/debug settings -> Debugger -> commands:
