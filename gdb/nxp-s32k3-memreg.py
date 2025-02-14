@@ -34,6 +34,10 @@ _regs = [
     NxpReg(0x40260200, 'ircp', 'IPC_MSCM_IRCPnIRx_Type'),
     # Reset Generation Module (to trigger reset or see reset cause)
     NxpReg(0x4028C000, 'rgm', 'MC_RGM_Type'),
+    # pins I/O - System Integration Unit Lite2 (SIUL2)
+    # With an enum going like A00 = 0, A31 = 31, B00 = 32, ...
+    # offsets of pin-wide registers w.r.t. A00 is ((pin XOR 3) - 3)
+    NxpReg(0x40290000, 'siul2', 'SIUL2_Type'),
 ]
 
 for reg in _regs:
