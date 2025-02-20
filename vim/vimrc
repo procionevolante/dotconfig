@@ -151,6 +151,11 @@ function! s:repoFiles()
   endif
 endfunction
 
+augroup filetypecmd
+  autocmd!
+  autocmd FileType svn set tw=72 " set textwidth to 72 like for git commits
+augroup END
+
 " fzf.vim command(s) without having to type ':....'
 nnoremap <leader>ff <cmd>Files<cr>
 nnoremap <leader>gf <cmd>call <sid>repoFiles()<cr>
