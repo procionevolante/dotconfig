@@ -47,13 +47,6 @@ Actual flashing is done once multiload ends.
 Useful on multi-core systems when flashing erases the whole ROM
 end
 
-define-prefix rregs-nxp
-define rregs-nxp k3
-    source ~/src/dotconfig/gdb/nxp-s32k3-memreg.py
-end
-define rregs-nxp k1
-    source ~/src/dotconfig/gdb/nxp-s32k1-memreg.py
-end
 define rregs-nxp
     # use SCS->CPUID to identify processor (ARMv7-M Architecture ref. manual)
     set $_cpuid = (uint32_t *) 0xe000ed00
@@ -72,6 +65,13 @@ end
 document rregs-nxp
 Read REGisterS definitions (NXP)
 Set convenience variables that aid in reading registers in NXP micros
+end
+define-prefix rregs-nxp
+define rregs-nxp k3
+    source ~/src/dotconfig/gdb/nxp-s32k3-memreg.py
+end
+define rregs-nxp k1
+    source ~/src/dotconfig/gdb/nxp-s32k1-memreg.py
 end
 
 # colored prompt
