@@ -1,0 +1,15 @@
+# ---------------
+# Git user config
+# ---------------
+
+# place in ~/.gitconfig, or use `git --global -e` to open editor
+# see git-config (1)
+
+[init]
+	defaultBranch = master
+[alias]
+	di = diff
+	st = status
+	dst = diff --stat
+[merge]
+	ff = only
