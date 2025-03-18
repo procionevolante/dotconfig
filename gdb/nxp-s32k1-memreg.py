@@ -9,11 +9,13 @@
 
 import gdb
 
+from dataclasses import dataclass
+
+@dataclass
 class NxpReg():
-    def __init__(self, addr, name, nxp_type):
-        self.addr = addr
-        self.name = name
-        self.nxp_type = nxp_type
+    addr: int
+    name: str
+    nxp_type: str
 
 _regs = [
     # ARM core registers
