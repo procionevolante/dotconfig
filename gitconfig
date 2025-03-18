@@ -11,5 +11,6 @@
 	di = diff
 	st = status
 	dst = diff --stat
+	slog = log --oneline
 [merge]
 	ff = only
