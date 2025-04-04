@@ -133,8 +133,14 @@ endfunction
 " like :GitFiles, but for svn and more stupid (alas I'm not a vim master yet)
 function! s:svnFiles()
     let repodir = getcwd() " assume PWD is the dir with .svn/
+    " note: avoiding `svn ls` as it always contacts the server
+    let cmd = 'sqlite3 .svn/wc.db '
+    let cmd .= "'SELECT local_relpath "
+    let cmd .= 'FROM NODES '
+    let cmd .= 'WHERE KIND = "file";'
+    let cmd .= "'"
     let wrapcfg = fzf#vim#with_preview(
-         \{'source': "svn ls -R | grep -vEe '\\$' -e '/$'",
+         \{'source': cmd,
          \ 'dir': repodir,
          \ 'options':'-m --prompt "SvnFiles> "'})
 
