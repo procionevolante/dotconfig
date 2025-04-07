@@ -84,6 +84,9 @@ if (!has('gui') && !has('nvim') && $TERM =~ '\v^(xterm|tmux|screen)')
   let &t_EI = "\e[2 q"
 endif
 
+" disable polyglot trying to be a smartass and detecting autoindentation
+let g:polyglot_disabled = ['autoindent']
+
 " Plug's plugins (dir for these is passed as argument)
 if (has('win32'))
   call plug#begin($USERPROFILE . '\windows-vim\plugged')
@@ -100,13 +103,8 @@ Plug 'sheerun/vim-polyglot'
 call plug#end()
 
 " indentation rules when working on company code
-" Needs to be redone here because polyglot tries to be smart and sets
-" expandtab according to the 1st file you open
 if (has('win32') . expand('%:p') =~ '\v0(/mnt)?/c/Users/'.$USER.'/|1C:\\Users\\'.$UserName.'\\')
     set shiftwidth=2 tabstop=2
-    if (expand('%:t') =~ '^(^Makefile)')
-      set expandtab
-    endif
 endif
 
 " Improved BLines with preview shamelessly copied from junegunn/fzf.vim/issues/374
