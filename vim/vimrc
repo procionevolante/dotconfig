@@ -130,7 +130,14 @@ endfunction
 
 " like :GitFiles, but for svn and more stupid (alas I'm not a vim master yet)
 function! s:svnFiles()
-    let repodir = getcwd() " assume PWD is the dir with .svn/
+    if isdirectory('.svn') " avoid calling `svn` unnecessarily
+        let repodir = getcwd()
+    else
+        let repodir = system('svn info --no-newline --show-item wc-root')
+        if v:shell_error != 0
+            throw 'Not in SVN repo.'
+        endif
+    endif
     " note: avoiding `svn ls` as it always contacts the server
     let cmd = 'sqlite3 .svn/wc.db '
     let cmd .= "'SELECT local_relpath "
@@ -148,11 +155,11 @@ command! -bang SvnFiles call <sid>svnFiles()
 
 " invoke :SvnFiles or :GitFiles accordingly
 function! s:repoFiles()
-  if isdirectory('.svn')
-    exe 'SvnFiles'
-  else
-    exe 'GitFiles'
-  endif
+    try
+        exe 'SvnFiles'
+    catch
+        exe 'GitFiles'
+    endtry
 endfunction
 
 augroup filetypecmd
