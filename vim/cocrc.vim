@@ -13,6 +13,10 @@ augroup coc_autocmd
   autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 augroup END
 
+" toggle inlay hints (virtual text can get in the way during text alignment)
+" see :help coc-inlayhint
+nnoremap <space>i <cmd>CocCommand document.toggleInlayHint <CR>
+
 " May need for Vim (not Neovim) since coc.nvim calculates byte offset by count
 " utf-8 byte sequence
 set encoding=utf-8
