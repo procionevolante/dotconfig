@@ -56,6 +56,7 @@ _regs = [
     NxpReg(0x40574000, 'can9', 'FLEXCAN_Type'),
     # misc
     NxpReg(0x40380000, 'crc', 'CRC_Type'),
+    NxpReg(0x40384000, 'fccu', 'FCCU_Type'), # Fault Collection & Control Unit
 ]
 
 for reg in _regs:
