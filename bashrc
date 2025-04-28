@@ -38,6 +38,9 @@ export LESS='iFR'
 # shell history configuration
 export HISTCONTROL=ignorespace
 export HISTSIZE=10000
+# default editor
+export VISUAL=nvim # should in theory be more capable than $EDITOR
+export EDITOR=nvim # should be able to run on a teletype. However, $year > 1990
 
 # aliases
 # -------
