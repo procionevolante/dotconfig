@@ -26,7 +26,7 @@ if [[ "$PATH" != *$HOME/bin* ]]; then
 fi
 
 # Set up fzf (fuzzy finder) key bindings and fuzzy completion
-if which fzf &> /dev/null; then
+if command -v fzf &> /dev/null; then
     eval "$(fzf --bash)"
 fi
 
