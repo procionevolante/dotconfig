@@ -115,8 +115,17 @@ end
 # LLDB-like prompt using python integration
 source ~/src/dotconfig/gdb/lldbPrompt.py
 
+# Print Pretty Prompt config
+set $ppp = 1
+
+define pretty_prompt
+    if $ppp
+        lldb-prompt
+    end
+end
+
 define hook-stop
-    lldb-prompt
+    pretty_prompt
 
     # workaround for gdb bug to get styled sources on next executions
     # see sourceware.org/bugzilla/show_bug.cgi?id=32676
@@ -125,14 +134,22 @@ define hook-stop
     printf "\e[1F                     \r"
 end
 define hookpost-frame
-    lldb-prompt
+    pretty_prompt
 end
 define hookpost-up
-    lldb-prompt
+    pretty_prompt
 end
 define hookpost-down
-    lldb-prompt
+    pretty_prompt
 end
+# only show lldb prompt if the TUI is disabled
+define tui hook-enable
+    set $ppp = 0
+end
+define tui hook-disable
+    set $ppp = 1
+end
+
 
 # useful aliases
 
