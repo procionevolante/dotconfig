@@ -8,8 +8,12 @@
 set history save on
 set history size 10000
 set history filename ~/.gdb_history
+set history remove-duplicates 1
 # print structs in a better aligned way
 set print pretty on
+
+# do not prompt about downloading debug info automatically
+set debuginfod enabled off
 
 define peconnect
     # copied from s32ds -> run/debug settings -> Debugger -> commands:
@@ -24,7 +28,7 @@ define peconnect
     else
         set $pecore = $arg0
     end
-    eval "target extended-remote localhost:%d", 7244 + (2 * $pecore)
+    eval "target remote localhost:%d", 7244 + (2 * $pecore)
     eval "monitor selectcore %d", $pecore
 end
 document peconnect
@@ -130,3 +134,10 @@ define hookpost-down
     lldb-prompt
 end
 
+# useful aliases
+
+# reset
+alias reset = monitor reset
+alias rst = monitor reset
+# easily run a cmd with pagination off
+alias nopagination = with pagination off --
