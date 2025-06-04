@@ -103,7 +103,9 @@ Plug 'sheerun/vim-polyglot'
 call plug#end()
 
 " indentation rules when working on company code
-if (has('win32') . expand('%:p') =~ '\v0(/mnt)?/c/Users/'.$USER.'/|1C:\\Users\\'.$UserName.'\\')
+if (has('win32') . expand('%:p') =~ '\v0(/mnt)?/c/Users/'.$USER.'/'.
+                                 \ '|1C:\\Users\\'.$UserName.'\\'.
+                                 \ '|0'.$HOME.'/src/localSvn/')
     set shiftwidth=2 tabstop=2
 endif
 
