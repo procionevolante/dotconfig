@@ -25,10 +25,18 @@ if [[ "$PATH" != *$HOME/bin* ]]; then
     export PATH="$PATH:$HOME/bin"
 fi
 
+# programs
+# --------
+
 # Set up fzf (fuzzy finder) key bindings and fuzzy completion
 if command -v fzf &> /dev/null; then
     eval "$(fzf --bash)"
 fi
+
+
+# let any key, not just ^Q, unfreeze terminal output stopped by ^S
+# see also https://unix.stackexchange.com/questions/12107
+stty ixany
 
 # env vars
 # --------
