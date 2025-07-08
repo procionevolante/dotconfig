@@ -23,17 +23,18 @@ define peconnect
     set remotetimeout 60
     # - - -
 
-    if $argc == 0
-        set $pecore = 0
-    else
+    if $argc >= 1
         set $pecore = $arg0
+    end
+    if $_isvoid($pecore)
+        set $pecore = 0
     end
     eval "target remote localhost:%d", 7244 + (2 * $pecore)
     eval "monitor selectcore %d", $pecore
 end
 document peconnect
 Connect to PEmicro's gdb server
-    param. 0: core# (default = 0)
+    param. 0: core# (default: previous one, or 0 if no previous one)
 end
 
 define-prefix pemultiload
