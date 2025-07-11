@@ -142,10 +142,9 @@ function! s:svnFiles()
     endif
     " note: avoiding `svn ls` as it always contacts the server
     let cmd = 'sqlite3 .svn/wc.db '
-    let cmd .= "'SELECT local_relpath "
+    let cmd .= '"SELECT local_relpath '
     let cmd .= 'FROM NODES '
-    let cmd .= 'WHERE KIND = "file";'
-    let cmd .= "'"
+    let cmd .= "WHERE KIND = 'file';\""
     let wrapcfg = fzf#vim#with_preview(
          \{'source': cmd,
          \ 'dir': repodir,
