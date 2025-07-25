@@ -1,0 +1,12 @@
+# Github does not respect our HTTP/1.0 request
+# see https://github.com/tats/w3m/issues/307
+# best thing would be to change accept_encoding setting for github but only a
+# few options can be changed per-site here
+url m!^https?://github\.com/!
+substitute_url "file:///cgi-bin/curl.cgi/github.com?"
+#accept_encoding "identity"
+
+# suggested by w3m's README.siteconf
+# bypass google's redirector
+url m!https?://www.google.com/url!
+substitute_url "file:///cgi-bin/redirect.cgi?"
