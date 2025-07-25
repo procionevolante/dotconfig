@@ -17,7 +17,3 @@ curl $proto -X "$REQUEST_METHOD" -sSD - "https://${PATH_INFO#/}/${QUERY_STRING#/
     $0 ~ /^\r?$/{content = 1} \
     content == 0{if (tolower($1) !~ /^w3m-control:/) print} \
     content != 0{print}'
-
-# use -G if doing a GET request
-# use --http11
-# -x request_type
