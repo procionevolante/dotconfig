@@ -36,9 +36,13 @@ config.window_padding = {
 -- see wezfurlong.org/wezterm/config/lua/config/term.html for more details
 config.term = 'wezterm'
 
--- run WSL if on windows
+-- windows specific cfg
 if string.find(wezterm.target_triple, 'windows') then
-    config.default_domain = 'WSL:Ubuntu-24.04'
+    -- run default WSL distro
+    -- arrays in lua start at index 1...
+    config.default_domain = wezterm.default_wsl_domains()[1]
+else -- linux specific cfg
+    config.window_background_opacity = 0.85
 end
 
 -- return modified config
