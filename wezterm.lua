@@ -24,6 +24,14 @@ config.hide_tab_bar_if_only_one_tab = true
 config.font = wezterm.font('Cascadia Mono')
 config.font_size = 11.0
 
+-- minimize window padding to not waste space
+config.window_padding = {
+    left = '1pt',
+    right = '1pt',
+    top = '1pt',
+    bottom = '1pt',
+}
+
 -- specific TERM variable. Install wezterm terminfo for this to work,
 -- see wezfurlong.org/wezterm/config/lua/config/term.html for more details
 config.term = 'wezterm'
