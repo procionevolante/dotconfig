@@ -10,6 +10,16 @@ local config = wezterm.config_builder()
 
 -- modify config obj to set configuration
 
+-- keybindings
+config.keys = {
+  -- disable "new tab"
+  {
+    key = 't',
+    mods = 'CTRL|SHIFT',
+    action = wezterm.action.DisableDefaultAssignment,
+  },
+}
+
 -- styling
 config.color_scheme = 'Monokai Vivid'
 config.colors = {
@@ -20,7 +30,7 @@ config.colors = {
     cursor_fg = '#000000',
 }
 config.enable_scroll_bar = false
-config.hide_tab_bar_if_only_one_tab = true
+config.enable_tab_bar = false
 config.font = wezterm.font('Cascadia Mono')
 config.font_size = 11.0
 
