@@ -40,7 +40,7 @@ config.term = 'wezterm'
 if string.find(wezterm.target_triple, 'windows') then
     -- run default WSL distro
     -- arrays in lua start at index 1...
-    config.default_domain = wezterm.default_wsl_domains()[1]
+    config.default_domain = wezterm.default_wsl_domains()[1].name
 else -- linux specific cfg
     config.window_background_opacity = 0.85
 end
