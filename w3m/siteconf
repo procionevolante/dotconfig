@@ -10,3 +10,7 @@ substitute_url "file:///cgi-bin/curl.cgi/github.com?"
 # bypass google's redirector
 url m!https?://www.google.com/url!
 substitute_url "file:///cgi-bin/redirect.cgi?"
+
+# bypass duckduckgo's redirector
+url m!^https?://duckduckgo.com/l/\?uddg!
+substitute_url "file:///cgi-bin/redirect_duckduckgo.cgi?"
