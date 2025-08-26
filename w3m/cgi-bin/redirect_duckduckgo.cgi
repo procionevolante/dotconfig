@@ -12,11 +12,11 @@
 # https://fast.com/
 
 BEGIN {
-    split(ENVIRON["W3M_CURRENT_LINK"], fullurl, /[&\?]/)
-    for (i = 2; i <= length(fullurl); i++)
+    len = split(ENVIRON["W3M_CURRENT_LINK"], fullurl, /[&\?]/)
+    for (i = 2; i <= len; i++)
         if(fullurl[i] ~ /^uddg=/)
             break
-    if (i > length(fullurl))
+    if (i > len)
         exit(1)
     # remove "udgg="
     url = substr(fullurl[i], 6)
