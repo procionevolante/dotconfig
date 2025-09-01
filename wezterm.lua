@@ -18,6 +18,12 @@ config.keys = {
     mods = 'CTRL|SHIFT',
     action = wezterm.action.DisableDefaultAssignment,
   },
+  -- disable "close current tab"
+  {
+    key = 'w',
+    mods = 'CTRL|SHIFT',
+    action = wezterm.action.DisableDefaultAssignment,
+  },
 }
 
 -- styling
