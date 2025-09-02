@@ -59,7 +59,7 @@ else
 endif
 
 " change cursor shape to line while editing
-if (!has('gui') && !has('nvim') && $TERM =~ '\v^(xterm|tmux|screen)')
+if (!has('gui_running') && !has('nvim') && $TERM =~ '\v^(xterm|tmux|screen)')
   augroup myCursor
     autocmd!
     autocmd VimEnter * silent !echo -ne "\e[2 q"
@@ -202,7 +202,7 @@ augroup style_override
     \ 'header':  ['fg', 'EndOfBuffer'] }
 augroup END
 
-if (has('gui'))
+if (has('gui_running'))
   " gvim graphical options
   " no toolbar
   set guioptions-=T
