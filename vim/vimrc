@@ -23,6 +23,8 @@ set incsearch
 set shortmess-=S
 " make mouse work in normal and visual mode
 set mouse=nv
+" set terminal title to filename
+set title
 " use system clipboard for yank/paste
 set clipboard+=unnamed
 " nvim clipboard provider
