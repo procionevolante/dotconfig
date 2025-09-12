@@ -54,9 +54,16 @@ _regs = [
     NxpReg(0x40320000, 'can7', 'FLEXCAN_Type'),
     NxpReg(0x40570000, 'can8', 'FLEXCAN_Type'),
     NxpReg(0x40574000, 'can9', 'FLEXCAN_Type'),
+    NxpReg(0x40358000, 'lpspi0', 'LPSPI_Type'),
+    NxpReg(0x4035C000, 'lpspi1', 'LPSPI_Type'),
+    NxpReg(0x40360000, 'lpspi2', 'LPSPI_Type'),
+    NxpReg(0x40364000, 'lpspi3', 'LPSPI_Type'),
+    NxpReg(0x404BC000, 'lpspi4', 'LPSPI_Type'),
+    NxpReg(0x404C0000, 'lpspi5', 'LPSPI_Type'),
     # misc
     NxpReg(0x40380000, 'crc', 'CRC_Type'),
     NxpReg(0x40384000, 'fccu', 'FCCU_Type'), # Fault Collection & Control Unit
+    NxpReg(0x4037C000, 'tempsense', 'TEMPSENSE_Type'),
 ]
 
 for reg in _regs:
