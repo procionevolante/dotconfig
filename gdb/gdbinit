@@ -1,5 +1,5 @@
 #
-# ~/.gdbinit
+# ~/.gdbinit, ~/.config/gdb/gdbinit
 #
 # GDB init script
 # See gdbinit(5) for more info
