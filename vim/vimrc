@@ -175,7 +175,8 @@ augroup style_override
   " yellow line numbers
   " selection inverts text background/foreground
   autocmd ColorScheme molokai highlight LineNr guifg=Yellow ctermfg=Yellow
-  autocmd ColorScheme molokai highlight Visual gui=inverse cterm=inverse
+  autocmd ColorScheme molokai highlight Visual gui=inverse guifg=NONE guibg=NONE
+                                       \ cterm=inverse ctermfg=NONE ctermbg=NONE
   autocmd ColorScheme molokai unlet $BAT_THEME
   "autocmd ColorScheme molokai let g:fzf_colors = {}
   " instead of underline, invert color in the cursorline number
