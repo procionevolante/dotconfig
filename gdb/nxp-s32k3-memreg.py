@@ -24,6 +24,7 @@ _regs = [
     NxpReg(0x400a0000, 'adc0', 'ADC_Type'),
     NxpReg(0x400a4000, 'adc1', 'ADC_Type'),
     NxpReg(0x400a8000, 'adc2', 'ADC_Type'),
+    NxpReg(0x40084000, 'bctu', 'BCTU_Type'),
     # timers
     NxpReg(0x400B0000, 'pit0', 'PIT_Type'),
     NxpReg(0x400B4000, 'pit1', 'PIT_Type'),
