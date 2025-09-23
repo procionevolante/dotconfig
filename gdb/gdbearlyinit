@@ -1,0 +1,10 @@
+#
+# ~/.gdbearlyinit, ~/.config/gdb/gdbearlyinit
+# vim: filetype=gdb
+#
+# GDB "early" init script
+# Runs before gdbinit, early during gdb startup.
+# Some options can only be changed here.
+
+# do not show warranty info on startup
+set startup-quietly on
