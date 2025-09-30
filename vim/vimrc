@@ -1,3 +1,5 @@
+" vim: sw=4 ts=4 et
+" for the above options chech :help modeline
 set nocp
 set number
 set wrap
@@ -52,13 +54,13 @@ set nofixeol
 
 " change cursor shape to line while editing
 if (!has('gui_running') && !has('nvim') && $TERM =~ '\v^(xterm|tmux|screen)')
-  augroup myCursor
-    autocmd!
-    autocmd VimEnter * silent !echo -ne "\e[2 q"
-    autocmd VimLeave * silent !echo -ne "\e[2 q"
-  augroup END
-  let &t_SI = "\e[6 q"
-  let &t_EI = "\e[2 q"
+    augroup myCursor
+        autocmd!
+        autocmd VimEnter * silent !echo -ne "\e[2 q"
+        autocmd VimLeave * silent !echo -ne "\e[2 q"
+    augroup END
+    let &t_SI = "\e[6 q"
+    let &t_EI = "\e[2 q"
 endif
 
 " disable polyglot trying to be a smartass and detecting autoindentation
@@ -66,9 +68,9 @@ let g:polyglot_disabled = ['autoindent']
 
 " Plug's plugins (dir for these is passed as argument)
 if (has('win32'))
-  call plug#begin($USERPROFILE . '\windows-vim\plugged')
+    call plug#begin($USERPROFILE . '\windows-vim\plugged')
 else
-  call plug#begin('~/.vim/plugged')
+    call plug#begin('~/.vim/plugged')
 endif
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/fzf'
@@ -134,9 +136,9 @@ function! s:repoFiles()
 endfunction
 
 augroup filetypecmd
-  autocmd!
-  autocmd FileType svn set tw=72 " set textwidth to 72 like for git commits
-  autocmd FileType make setl noexpandtab " make doesn't like tab characters
+    autocmd!
+    autocmd FileType svn set tw=72 " set textwidth to 72 like for git commits
+    autocmd FileType make setl noexpandtab " make doesn't like tab characters
 augroup END
 
 " fzf.vim command(s) without having to type ':....'
@@ -155,84 +157,84 @@ nmap <silent> <C-L> <C-L>:nohlsearch<CR>:match<CR>:diffupdate<CR>
 
 " colorscheme & styling personalisation
 augroup style_override
-  autocmd!
-  " use underline to highlight word in coc
-  autocmd ColorScheme * highlight CocHighlightText cterm=underline gui=underline
-  " yellow line numbers
-  " selection inverts text background/foreground
-  autocmd ColorScheme molokai highlight LineNr guifg=Yellow ctermfg=Yellow
-  autocmd ColorScheme molokai highlight Visual gui=inverse guifg=NONE guibg=NONE
-                                       \ cterm=inverse ctermfg=NONE ctermbg=NONE
-  autocmd ColorScheme molokai unlet $BAT_THEME
-  "autocmd ColorScheme molokai let g:fzf_colors = {}
-  " instead of underline, invert color in the cursorline number
-  autocmd ColorScheme slate highlight CursorLineNr cterm=inverse gui=inverse
-  autocmd ColorScheme slate highlight CursorLine ctermbg=Black cterm=NONE guibg=#303030
-  " use terminal default (transparent) background
-  autocmd ColorScheme slate highlight Normal guibg=CLEAR
-  autocmd ColorScheme slate highlight EndOfBuffer guibg=CLEAR
-  autocmd ColorScheme onehalflight let $BAT_THEME = 'OneHalfLight'
-  autocmd ColorScheme onehalflight highlight MatchParen term=reverse cterm=bold
-        \ ctermfg=233 ctermbg=208 gui=bold guifg=#000000 guibg=#FD971F " like molokai
-  " colors "which adapt to the colorscheme" adapted from junegunn/fzf.vim/issues/1509
-  autocmd ColorScheme onehalflight,github let g:fzf_colors = {
-    \ 'hl':      ['fg', 'Statement'],
-    \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-    \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-    \ 'hl+':     ['fg', 'Statement'],
-    \ 'info':    ['fg', 'PreProc'],
-    \ 'border':  ['fg', 'Ignore'],
-    \ 'prompt':  ['fg', 'Conditional'],
-    \ 'pointer': ['fg', 'Exception'],
-    \ 'marker':  ['fg', 'Keyword'],
-    \ 'spinner': ['fg', 'Label'],
-    \ 'header':  ['fg', 'EndOfBuffer'] }
+    autocmd!
+    " use underline to highlight word in coc
+    autocmd ColorScheme * highlight CocHighlightText cterm=underline gui=underline
+    " yellow line numbers
+    " selection inverts text background/foreground
+    autocmd ColorScheme molokai highlight LineNr guifg=Yellow ctermfg=Yellow
+    autocmd ColorScheme molokai highlight Visual gui=inverse guifg=NONE guibg=NONE
+                                         \ cterm=inverse ctermfg=NONE ctermbg=NONE
+    autocmd ColorScheme molokai unlet $BAT_THEME
+    "autocmd ColorScheme molokai let g:fzf_colors = {}
+    " instead of underline, invert color in the cursorline number
+    autocmd ColorScheme slate highlight CursorLineNr cterm=inverse gui=inverse
+    autocmd ColorScheme slate highlight CursorLine ctermbg=Black cterm=NONE guibg=#303030
+    " use terminal default (transparent) background
+    autocmd ColorScheme slate highlight Normal guibg=CLEAR
+    autocmd ColorScheme slate highlight EndOfBuffer guibg=CLEAR
+    autocmd ColorScheme onehalflight let $BAT_THEME = 'OneHalfLight'
+    autocmd ColorScheme onehalflight highlight MatchParen term=reverse cterm=bold
+          \ ctermfg=233 ctermbg=208 gui=bold guifg=#000000 guibg=#FD971F " like molokai
+    " colors "which adapt to the colorscheme" adapted from junegunn/fzf.vim/issues/1509
+    autocmd ColorScheme onehalflight,github let g:fzf_colors = {
+        \ 'hl':      ['fg', 'Statement'],
+        \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+        \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+        \ 'hl+':     ['fg', 'Statement'],
+        \ 'info':    ['fg', 'PreProc'],
+        \ 'border':  ['fg', 'Ignore'],
+        \ 'prompt':  ['fg', 'Conditional'],
+        \ 'pointer': ['fg', 'Exception'],
+        \ 'marker':  ['fg', 'Keyword'],
+        \ 'spinner': ['fg', 'Label'],
+        \ 'header':  ['fg', 'EndOfBuffer'] }
 augroup END
 
 if (has('gui_running'))
-  " gvim graphical options
-  " no toolbar
-  set guioptions-=T
-  "no scrollbars
-  set guioptions-=r
-  set guioptions-=R
-  set guioptions-=l
-  set guioptions-=L
-  colorscheme onehalflight
+    " gvim graphical options
+    " no toolbar
+    set guioptions-=T
+    "no scrollbars
+    set guioptions-=r
+    set guioptions-=R
+    set guioptions-=l
+    set guioptions-=L
+    colorscheme onehalflight
 elseif (exists('+termguicolors') && ($TERM =~ '-256color$' || $TERM == 'wezterm'))
-  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-  set termguicolors " note that slate colorscheme with this is terrible
-  colorscheme molokai
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+    set termguicolors " note that slate colorscheme with this is terrible
+    colorscheme molokai
 elseif has ('nvim')
-  colorscheme slate
+    colorscheme slate
 else
-  colorscheme default
+    colorscheme default
 endif
 
 " hack to make :Rg work on win32
 if (has('win32'))
-  " call Rg using bash -c "exec rg ..."
-  "delcommand Rg
-  function MyRg(tosearch)
-    let cmd = "exec /ucrt64/bin/rg --column --line-number --no-heading --color=always --smart-case -- '" . a:tosearch . "'"
-    let cmd = "bash -c \"" . cmd ."\""
+    " call Rg using bash -c "exec rg ..."
+    "delcommand Rg
+    function MyRg(tosearch)
+        let cmd = "exec /ucrt64/bin/rg --column --line-number --no-heading --color=always --smart-case -- '" . a:tosearch . "'"
+        let cmd = "bash -c \"" . cmd ."\""
 
-    call fzf#vim#grep(cmd, fzf#vim#with_preview(), 0)
-  endfunction
-" command! -bang -nargs=* BB call MyRg(fzf#shellescape(<q-args>))
-  command! -bang -nargs=* Rg call MyRg(escape(<q-args>, "'\\"))
-  
+        call fzf#vim#grep(cmd, fzf#vim#with_preview(), 0)
+    endfunction
+"   command! -bang -nargs=* BB call MyRg(fzf#shellescape(<q-args>))
+    command! -bang -nargs=* Rg call MyRg(escape(<q-args>, "'\\"))
+
 " command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".fzf#shellescape(<q-args>), \
-"   fzf#vim#with_preview(), \
-"   <bang>0)
+"     fzf#vim#with_preview(), \
+"     <bang>0)
 endif
 
 " CoC conf (completions manager) in separate file so vimrc is not huge
 if (has('win32'))
-  exe 'source' 'C:\msys64\home\'.$UserName.'\.vim\cocrc.vim'
+    exe 'source' 'C:\msys64\home\'.$UserName.'\.vim\cocrc.vim'
 else
-  source ~/.vim/cocrc.vim
+    source ~/.vim/cocrc.vim
 endif
 
 " work options in separate file to not pollute "pure" vimrc
