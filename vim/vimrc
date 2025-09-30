@@ -79,13 +79,6 @@ Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'sheerun/vim-polyglot'
 call plug#end()
 
-" indentation rules when working on company code
-if (has('win32') . expand('%:p') =~ '\v0(/mnt)?/c/Users/'.$USER.'/'.
-                                 \ '|1C:\\Users\\'.$UserName.'\\'.
-                                 \ '|0'.$HOME.'/src/localSvn/')
-    set shiftwidth=2 tabstop=2
-endif
-
 " Improved BLines with preview shamelessly copied from junegunn/fzf.vim/issues/374
 " doesn't work on win32 probably because there rg can't be found
 command! -bang -nargs=* BL
@@ -240,4 +233,9 @@ if (has('win32'))
   exe 'source' 'C:\msys64\home\'.$UserName.'\.vim\cocrc.vim'
 else
   source ~/.vim/cocrc.vim
+endif
+
+" work options in separate file to not pollute "pure" vimrc
+if filereadable("~/.vimrc-work")
+	source "~/.vimrc-work"
 endif
