@@ -238,6 +238,6 @@ else
 endif
 
 " work options in separate file to not pollute "pure" vimrc
-if filereadable("~/.vimrc-work")
-	source "~/.vimrc-work"
+if filereadable($HOME . '/.vimrc-work')
+    exe 'source' $HOME . '/.vimrc-work'
 endif
