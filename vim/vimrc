@@ -77,7 +77,6 @@ Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'rafi/awesome-vim-colorschemes'
-Plug 'sonph/onehalf', { 'rtp': 'vim' }
 Plug 'sheerun/vim-polyglot'
 call plug#end()
 
@@ -126,6 +125,32 @@ function! s:svnFiles()
 endfunction
 command! -bang SvnFiles call <sid>svnFiles()
 
+" Setup modifications to make external programs vim calls readable on light
+" color schemes
+function s:makeLightThemesReadable(newbg)
+    " for dark color schemes default colors are fine
+    if a:newbg == 'dark'
+        unlet $BAT_THEME
+        unlet! g:fzf_colors
+    else
+        let $BAT_THEME = 'OneHalfLight'
+        " fzf colors "which adapt to the colorscheme"
+        " based on junegunn/fzf.vim/issues/1509
+        let g:fzf_colors = {
+            \ 'hl':      ['fg', 'Statement'],
+            \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+            \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+            \ 'hl+':     ['fg', 'Statement'],
+            \ 'info':    ['fg', 'PreProc'],
+            \ 'border':  ['fg', 'Ignore'],
+            \ 'prompt':  ['fg', 'Conditional'],
+            \ 'pointer': ['fg', 'Exception'],
+            \ 'marker':  ['fg', 'Keyword'],
+            \ 'spinner': ['fg', 'Label'],
+            \ 'header':  ['fg', 'EndOfBuffer'] }
+    endif
+endfunction
+
 " invoke :SvnFiles or :GitFiles accordingly
 function! s:repoFiles()
     try
@@ -173,22 +198,8 @@ augroup style_override
     " use terminal default (transparent) background
     autocmd ColorScheme slate highlight Normal guibg=CLEAR
     autocmd ColorScheme slate highlight EndOfBuffer guibg=CLEAR
-    autocmd ColorScheme onehalflight let $BAT_THEME = 'OneHalfLight'
-    autocmd ColorScheme onehalflight highlight MatchParen term=reverse cterm=bold
           \ ctermfg=233 ctermbg=208 gui=bold guifg=#000000 guibg=#FD971F " like molokai
-    " colors "which adapt to the colorscheme" adapted from junegunn/fzf.vim/issues/1509
-    autocmd ColorScheme onehalflight,github let g:fzf_colors = {
-        \ 'hl':      ['fg', 'Statement'],
-        \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-        \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-        \ 'hl+':     ['fg', 'Statement'],
-        \ 'info':    ['fg', 'PreProc'],
-        \ 'border':  ['fg', 'Ignore'],
-        \ 'prompt':  ['fg', 'Conditional'],
-        \ 'pointer': ['fg', 'Exception'],
-        \ 'marker':  ['fg', 'Keyword'],
-        \ 'spinner': ['fg', 'Label'],
-        \ 'header':  ['fg', 'EndOfBuffer'] }
+    autocmd OptionSet background call <sid>makeLightThemesReadable(v:option_new)
 augroup END
 
 if (has('gui_running'))
@@ -200,7 +211,7 @@ if (has('gui_running'))
     set guioptions-=R
     set guioptions-=l
     set guioptions-=L
-    colorscheme onehalflight
+    colorscheme molokai
 elseif (exists('+termguicolors') && ($TERM =~ '-256color$' || $TERM == 'wezterm'))
     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
