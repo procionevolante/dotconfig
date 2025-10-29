@@ -88,17 +88,25 @@ command! -bang -nargs=* BL
     \   fzf#vim#with_preview({'options': '--query '.shellescape(<q-args>).' --with-nth=4.. --delimiter=":"'}, 'right:50%'))
 
 " with :RG, exec fzf.vim's :Rg on selection
+" (old selection if nothing selected and called via :RG, dunno how to fix it)
 command -range RG call <sid>rgwrapper()
 function! s:rgwrapper()
-    let selstart = getpos("'<")
-    let selend = getpos("'>")
-    if selstart[1] != selend[1]
-        echohl WarningMsg | echo "Multiple lines selected" | echohl None
-        return
+    let orig_t = @t " save original value of reg. t
+    " yank current selection into register t
+    if tolower(mode()[0]) == 'v'
+        silent normal! "ty
+    else
+        silent normal! gv"ty
     endif
-    let selection = getline(selstart[1])[selstart[2] -1 : selend[2] -1]
-    let selection = escape(selection, '{}[]()*|:')
-    execute 'Rg' selection
+
+    if getpos("'<")[1] != getpos("'>")[1]
+        echohl WarningMsg | echo "Multiple lines selected" | echohl None
+    else
+        let selection = escape(@t, '{}[]()*|:')
+        execute 'Rg' selection
+    endif
+
+    let @t = orig_t " restore register t's value
 endfunction
 
 " like :GitFiles, but for svn and more stupid (alas I'm not a vim master yet)
@@ -172,13 +180,12 @@ nnoremap <leader>gf <cmd>call <sid>repoFiles()<cr>
 nnoremap <leader>fl <cmd>BL<cr>
 nnoremap <leader>bl <cmd>BLines<cr>
 nnoremap <leader>fg <cmd>Rg<cr>
-" this reads the previous selection for some reason, TODO investigate
-"vnoremap <leader>fg <cmd>RG<cr>
 " additional key bindings
+vnoremap <leader>fg <cmd>RG<cr>
 nnoremap <leader>tt <cmd>tab split<cr>
 
 "clear search highlighting on ^L
-nmap <silent> <C-L> <C-L>:nohlsearch<CR>:match<CR>:diffupdate<CR>
+nnoremap <silent> <C-L> <C-L>:nohlsearch<CR>:match<CR>:diffupdate<CR>
 
 " colorscheme & styling personalisation
 augroup style_override
