@@ -136,12 +136,12 @@ command! -bang SvnFiles call <sid>svnFiles()
 " Setup modifications to make external programs vim calls readable on light
 " color schemes
 function s:makeLightThemesReadable(newbg)
+    " newbg is either 'dark' or 'light'
+    let $BAT_THEME = a:newbg
     " for dark color schemes default colors are fine
     if a:newbg == 'dark'
-        unlet $BAT_THEME
         unlet! g:fzf_colors
     else
-        let $BAT_THEME = 'OneHalfLight'
         " fzf colors "which adapt to the colorscheme"
         " based on junegunn/fzf.vim/issues/1509
         let g:fzf_colors = {
