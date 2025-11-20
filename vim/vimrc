@@ -102,7 +102,7 @@ function! s:rgwrapper()
     if getpos("'<")[1] != getpos("'>")[1]
         echohl WarningMsg | echo "Multiple lines selected" | echohl None
     else
-        let selection = escape(@t, '{}[]()*|:')
+        let selection = escape(@t, '{}[]()*|:.')
         execute 'Rg' selection
     endif
 
