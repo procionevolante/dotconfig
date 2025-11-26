@@ -29,12 +29,22 @@ define peconnect
     if $_isvoid($pecore)
         set $pecore = 0
     end
-    eval "target remote localhost:%d", 7244 + (2 * $pecore)
+    # to make this work on WSL run one of these CMD on a privileged PS
+    # 1. New-NetFirewallRule -DisplayName "WSL" -Direction Inbound ^
+    #    -InterfaceAlias "vEthernet (WSL (Hyper-V firewall))"  -Action Allow
+    # 2. Set-NetFirewallProfile -DisabledInterfaceAliases ^
+    #    "vEthernet (WSL (Hyper-V firewall))"
+    if $argc == 5
+        eval "target remote %d.%d.%d.%d:%d", $arg1, $arg2, $arg3, $arg4, 7244 + (2 * $pecore)
+    else
+        eval "target remote localhost:%d", 7244 + (2 * $pecore)
+    end
     eval "monitor selectcore %d", $pecore
 end
 document peconnect
 Connect to PEmicro's gdb server
     param. 0: core# (default: previous one, or 0 if no previous one)
+    param. 1-4: (optional) IPv4 address of gdb server without dots
 end
 
 define-prefix pemultiload
