@@ -20,6 +20,7 @@ _regs = [
     # ARM core registers
     NxpReg(0xe000e000, 'nvic', 'S32_NVIC_Type'),
     NxpReg(0xe000e000, 'scb', 'S32_SCB_Type'),
+    NxpReg(0xe000e010, 'systick', 'S32_SysTick_Type'),
     # ADC
     NxpReg(0x400a0000, 'adc0', 'ADC_Type'),
     NxpReg(0x400a4000, 'adc1', 'ADC_Type'),
