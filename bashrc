@@ -21,7 +21,7 @@ PROMPT_COMMAND='_print_err_code'
 # -----------------
 
 # add my scripts to PATH
-if [[ "$PATH" != *$HOME/bin* ]]; then
+if [[ "$PATH" != *$HOME/bin* ]] && [ -d "$HOME/bin" ]; then
     export PATH="$PATH:$HOME/bin"
 fi
 
