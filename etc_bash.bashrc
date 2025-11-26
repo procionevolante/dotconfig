@@ -1,3 +1,4 @@
+# vim: filetype=bash
 #
 # /etc/bash.bashrc
 #
