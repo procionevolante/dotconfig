@@ -70,7 +70,9 @@ store-auth-creds = yes
 ### Set merge-tool-cmd to the command used to invoke your external
 ### merging tool of choice. Subversion will pass 5 arguments to
 ### the specified command: base theirs mine merged wcfile
-merge-tool-cmd = nvim -d
+### Do not pass additional arguments here because spaces are interpreted as
+### part of the program name. Use a wrapper if you need to do that
+# merge-tool-cmd = merge_command
 
 ### Section for configuring tunnel agents.
 [tunnels]
@@ -88,7 +90,7 @@ merge-tool-cmd = nvim -d
 ### <hostinfo> argument in the usual way: <user>@<hostname>:<port>.
 ### If the built-in ssh scheme were not predefined, it could be
 ### defined as:
-# ssh = $SVN_SSH ssh -q -o ControlMaster=no --
+# ssh = $SVN_SSH ssh -q --
 ### If you wanted to define a new 'rsh' scheme, to be used with
 ### 'svn+rsh:' URLs, you could do so as follows:
 # rsh = rsh --
@@ -105,7 +107,7 @@ merge-tool-cmd = nvim -d
 ### which Subversion will ignore in its 'status' output, and
 ### while importing or adding files and directories.
 ### '*' matches leading dots, e.g. '*.rej' matches '.foo.rej'.
-global-ignores = *.o *.lo *.la *.al .libs *.so *.so.[0-9]* *.a *.pyc *.pyo __pycache__ compile_commands.json .clang-format language.settings.xml .cache Debug_FLASH* Release_FLASH* *.diff *.patch CORE_M7_[01]
+global-ignores = *.o *.lo *.la *.al .libs *.so *.so.[0-9]* *.a *.pyc *.pyo __pycache__ compile_commands.json compile_flags.txt .clang-format language.settings.xml .cache Debug_FLASH* Release_FLASH* *.diff *.patch CORE_M7_[01]
 #   *.rej *~ #*# .#* .*.swp .DS_Store [Tt]humbs.db
 ### Set log-encoding to the default encoding for log messages
 # log-encoding = latin1
@@ -128,6 +130,10 @@ mime-types-file = /etc/mime.types
 ### for 'svn add' and 'svn import', it defaults to 'no'.
 ### Automatic properties are defined in the section 'auto-props'.
 enable-auto-props = yes
+### Set enable-magic-file to 'no' to disable magic file detection
+### of the file type when automatically setting svn:mime-type. It
+### defaults to 'yes' if magic file support is possible.
+# enable-magic-file = yes
 ### Set interactive-conflicts to 'no' to disable interactive
 ### conflict resolution prompting.  It defaults to 'yes'.
 # interactive-conflicts = no
