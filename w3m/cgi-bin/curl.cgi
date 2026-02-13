@@ -14,6 +14,6 @@ esac
 # sanitize rx data by stripping out `w3m-control:` headers to avoid RCE
 # Assume the site supports HTTPS even if original request could be plain HTTP
 curl $proto -X "$REQUEST_METHOD" -sSD - "https://${PATH_INFO#/}/${QUERY_STRING#/}" | awk ' \
-    $0 ~ /^\r?$/{content = 1} \
+    content == 0 && $0 ~ /^\r?$/{content = 1} \
     content == 0{if (tolower($1) !~ /^w3m-control:/) print} \
     content != 0{print}'
