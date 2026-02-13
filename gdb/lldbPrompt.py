@@ -26,7 +26,7 @@ class LldbPrompt(gdb.Command):
 
         curpos = frame.find_sal() # type = Symtab_and_line
         if curpos.symtab != None: # can gdb list around here?
-            listing = gdb.execute(f"list {curpos.symtab.filename}:{curpos.line}", True, True)
+            listing = gdb.execute(f"list {curpos.symtab.filename}:{curpos.line}", True, True, True)
             newListing = self.markLineInListing(curpos.line, listing)
             print(newListing, end='')
 

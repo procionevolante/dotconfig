@@ -104,8 +104,13 @@ set listsize 21
 
 # styling
 set style disassembler enabled on
+set style emoji off
 set style sources on
 set style enabled on
+# line number needs to be unstyled text for prompt manipulation
+set style line-number intensity normal
+set style line-number background none
+set style line-number foreground none
 
 # print prompt like LLDB's
 # this needs to mess a bit with `style enabled` to work,
@@ -144,11 +149,13 @@ end
 define hook-stop
     pretty_prompt
 
-    # workaround for gdb bug to get styled sources on next executions
-    # see sourceware.org/bugzilla/show_bug.cgi?id=32676
-    maintenance flush source-cache
-    # hide "Source cache flushed.\n" message
-    printf "\e[1F                     \r"
+    if $_gdb_major < 17 && $_gdb_minor < 1
+        # workaround for gdb bug to get styled sources on next executions
+        # see sourceware.org/bugzilla/show_bug.cgi?id=32676
+        maintenance flush source-cache
+        # hide "Source cache flushed.\n" message
+        printf "\e[1F                     \r"
+    end
 end
 define hookpost-frame
     pretty_prompt
