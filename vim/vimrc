@@ -112,6 +112,23 @@ endfunction
 " Open a temp buffer with no associated file. See :help scratch-buffer
 command NewScratch new | setl buftype=nofile | setl noswapfile
 
+" write template for cherry-picking with svn
+function! s:svn_cherrypicklog(rev)
+    let orig_l = @l
+
+    " svn log -l 1 -c 420 --xml ^/ | xq -r .log.logentry.msg
+    let @l = system('svn log --xml -c ' . a:rev . ' ^/ | xq -r .log.logentry.msg')
+    let @l .= "\n*** cherry-picked from r" . a:rev
+    put l
+    " delete line 1
+    go
+    delete
+
+    let @l = orig_l
+endfunction
+
+command -nargs=1 Svncplog call <sid>svn_cherrypicklog(<args>)
+
 " like :GitFiles, but for svn and more stupid (alas I'm not a vim master yet)
 function! s:svnFiles()
     if isdirectory('.svn') " avoid calling `svn` unnecessarily
