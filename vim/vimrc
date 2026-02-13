@@ -109,6 +109,9 @@ function! s:rgwrapper()
     let @t = orig_t " restore register t's value
 endfunction
 
+" Open a temp buffer with no associated file. See :help scratch-buffer
+command NewScratch new | setl buftype=nofile | setl noswapfile
+
 " like :GitFiles, but for svn and more stupid (alas I'm not a vim master yet)
 function! s:svnFiles()
     if isdirectory('.svn') " avoid calling `svn` unnecessarily
@@ -183,6 +186,7 @@ nnoremap <leader>fg <cmd>Rg<cr>
 " additional key bindings
 vnoremap <leader>fg <cmd>RG<cr>
 nnoremap <leader>tt <cmd>tab split<cr>
+nnoremap <leader>ss <cmd>NewScratch<cr>
 
 "clear search highlighting on ^L
 nnoremap <silent> <C-L> <C-L>:nohlsearch<CR>:match<CR>:diffupdate<CR>
