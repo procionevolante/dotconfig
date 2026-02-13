@@ -6,8 +6,7 @@ set wrap
 set shiftwidth=4 tabstop=4
 " indent with spaces instead of tabs when pressing TAB
 set expandtab
-"set guifont=Terminus:h15
-set guifont=Consolas:h12
+set guifont=Cascadia\ Mono:h11,Liberation\ Mono:h12,Consolas:h12,monospace:h12
 " higlight current line (if line wraps, only higlight line with cursor)
 set cursorline cursorlineopt=number,screenline
 " do not keep a file open hidden after it has been closed but vim is still open
