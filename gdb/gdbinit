@@ -34,8 +34,13 @@ define peconnect
     #    -InterfaceAlias "vEthernet (WSL (Hyper-V firewall))"  -Action Allow
     # 2. Set-NetFirewallProfile -DisabledInterfaceAliases ^
     #    "vEthernet (WSL (Hyper-V firewall))"
-    if $argc == 5
-        eval "target remote %d.%d.%d.%d:%d", $arg1, $arg2, $arg3, $arg4, 7244 + (2 * $pecore)
+    if $argc >= 5
+        if $argc == 6
+            set $pebaseport = $arg5
+        else
+            set $pebaseport = 7244
+        end
+        eval "target remote %d.%d.%d.%d:%d", $arg1, $arg2, $arg3, $arg4, $pebaseport + (2 * $pecore)
     else
         eval "target remote localhost:%d", 7244 + (2 * $pecore)
     end
@@ -45,6 +50,7 @@ document peconnect
 Connect to PEmicro's gdb server
     param. 0: core# (default: previous one, or 0 if no previous one)
     param. 1-4: (optional) IPv4 address of gdb server without dots
+    param. 5: (optional) TCP/IP base port number (default 7244)
 end
 
 define-prefix pemultiload
