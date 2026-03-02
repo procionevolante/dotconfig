@@ -1,0 +1,6 @@
+#
+# ~/.octaverc: octave configuration
+# 
+
+# set "coredump" in our tmp dir so we don't pollute current dir
+octave_core_file_name(strcat(getenv("HOME"), "/tmp/octave-crash-workspace"))
