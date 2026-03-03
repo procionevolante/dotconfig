@@ -12,5 +12,9 @@
 	st = status
 	dst = diff --stat
 	slog = log --oneline
+	# use `delta` (https://dandavison.github.io/delta) as pager for
+	# diff w/ syntax highlighting
+	delta = -c core.pager=delta diff
+	ddi = delta
 [merge]
 	ff = only
