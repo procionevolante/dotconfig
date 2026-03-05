@@ -1,0 +1,39 @@
+#!/bin/awk -f
+
+# pre commit git to avoid committing TODO, FIXME, DEBUG, ... stuff by mistake
+# copy/paste/rename in .git/hooks/pre-commit
+# Requires awk (any: gawk, nawk, mawk, ...)
+# See also githooks (5)
+
+BEGIN {
+    forbidden_regex = "TODO|FIXME|DEBUG"
+
+    cmd = "git diff --staged -p -U0"
+    forbidden_found = 0
+    while ((cmd | getline) > 0) {
+        # for some reason `continue` here skips all following iterations
+        # so let's wrap the whole `for` body in an if
+        if ($0 !~ /^-/) {
+            if ($1 == "diff") {
+                fname_printed = 0
+                fname = $0
+            } else if ($0 ~ /^+/ && toupper($0) ~ forbidden_regex) {
+                if (!forbidden_found) {
+                    print (forbidden_regex " forbbiden marks found:")
+                    forbidden_found = 1
+                }
+                if (!fname_printed) {
+                    printf("\n%s\n", fname)
+                    fname_printed = 1
+                }
+                print($0)
+            }
+        }
+    }
+    close(cmd)
+
+    if (forbidden_found)
+        printf("\nTo commit anyway, use the --no-verify flag\n")
+
+    exit(forbidden_found)
+}

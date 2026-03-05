@@ -1,0 +1,22 @@
+# ---------------
+# Git user config
+# ---------------
+
+# place in ~/.gitconfig, or use `git --global -e` to open editor
+# see git-config (1)
+
+[init]
+	defaultBranch = master
+[alias]
+    # shorter commands to quickly do certain operations
+	di = diff
+	st = status
+	dst = diff --stat
+	slog = log --oneline
+    # use `delta` (https://dandavison.github.io/delta) as pager for
+    # various commands to have syntax highlighting
+    delta = -c core.pager=delta diff
+    ddi = delta
+    dblame = -c core.pager=delta blame
+[merge]
+	ff = only
