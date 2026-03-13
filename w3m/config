@@ -99,7 +99,7 @@ disable_secret_security_check 0
 ftppasswd 
 ftppass_hostnamegen 1
 pre_form_file ~/.w3m/pre_form
-siteconf_file /home/afanti/.w3m/siteconf
+siteconf_file ~/.w3m/siteconf
 user_agent 
 no_referer 1
 cross_origin_referer 1
