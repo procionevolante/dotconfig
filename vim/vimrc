@@ -269,11 +269,8 @@ if (has('win32'))
 endif
 
 " CoC conf (completions manager) in separate file so vimrc is not huge
-if (has('win32'))
-    exe 'source' 'C:\msys64\home\'.$UserName.'\.vim\cocrc.vim'
-else
-    source ~/.vim/cocrc.vim
-endif
+" source from same dir where vimrc resides
+exe 'source' resolve(expand('<sfile>:p:h')) . '/cocrc.vim'
 
 " work options in separate file to not pollute "pure" vimrc
 if filereadable($HOME . '/.vimrc-work')
