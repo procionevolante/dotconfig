@@ -8,22 +8,29 @@
 BEGIN {
     forbidden_regex = "TODO|FIXME|DEBUG"
 
+    SEARCHING_FNAME = 0
+    SEARCHING_MATCH = 1
+
+    state = SEARCHING_FNAME
     cmd = "git diff --staged -p -U0"
-    forbidden_found = 0
+    forbidden_found = 0 # to print header only once & set exit status
     while ((cmd | getline) > 0) {
-        # for some reason `continue` here skips all following iterations
-        # so let's wrap the whole `for` body in an if
-        if ($0 !~ /^-/) {
-            if ($1 == "diff") {
-                fname_printed = 0
-                fname = $0
-            } else if ($0 ~ /^+/ && toupper($0) ~ forbidden_regex) {
+        if ($1 == "diff") {
+            state = SEARCHING_FNAME
+            fname_printed = 0
+        } else if (state == SEARCHING_FNAME) {
+            if ($1 == "+++") {
+                fname = substr($0, 7) # remove "+++ b/" prefix
+                state = SEARCHING_MATCH
+            }
+        } else if (state == SEARCHING_MATCH) {
+            if ($0 ~ /^\+/ && toupper($0) ~ forbidden_regex) {
                 if (!forbidden_found) {
                     print (forbidden_regex " forbbiden marks found:")
                     forbidden_found = 1
                 }
                 if (!fname_printed) {
-                    printf("\n%s\n", fname)
+                    printf("\n* %s:\n", fname)
                     fname_printed = 1
                 }
                 print($0)
@@ -32,8 +39,9 @@ BEGIN {
     }
     close(cmd)
 
-    if (forbidden_found)
-        printf("\nTo commit anyway, use the --no-verify flag\n")
+    if (forbidden_found) {
+        printf("\nTo commit anyway, use the -n/--no-verify flag\n")
+    }
 
     exit(forbidden_found)
 }
