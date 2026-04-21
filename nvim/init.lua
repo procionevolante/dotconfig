@@ -99,8 +99,7 @@ vim.g.maplocalleader = " "
 require("lazy").setup({
     spec = {
         'tpope/vim-fugitive',
-        'junegunn/fzf',
-        'junegunn/fzf.vim',
+        "ibhagwan/fzf-lua",
         -- do not lazy load this since we use it immediately
         { 'rafi/awesome-vim-colorschemes', lazy = false },
         {
@@ -151,6 +150,14 @@ vim.api.nvim_create_autocmd("OptionSet", {
     -- vim.go.background is either 'light' or 'dark'
     callback = function() vim.env.BAT_THEME = vim.go.background end
 })
+vim.api.nvim_create_autocmd("ColorScheme", {
+    desc = 'Decently highlight refs of current variable to avoid eye sores',
+    group = style_augroup,
+    command = [[
+        highlight link LspReferenceText Underlined
+        highlight Underlined guifg=NONE ctermfg=NONE cterm=underline gui=underline
+    ]]
+})
 
 vim.cmd.colorscheme("molokai") -- note vim.cmd instead of vim.opt
 
@@ -179,24 +186,44 @@ vim.api.nvim_create_autocmd("LspAttach", {
         --if client:supports_method('...')
     end
 })
+vim.api.nvim_create_autocmd("CursorHold", {
+    desc = 'Highlight current symbol after some time with a still cursor',
+    group = lsp_augroup,
+    callback = function() vim.lsp.buf.document_highlight() end
+})
+vim.api.nvim_create_autocmd("CursorMoved", {
+    desc = 'Clear highlighting once cursor moves',
+    group = lsp_augroup,
+    callback = function() vim.lsp.buf.clear_references() end
+})
 
 -- commands / mappings
 ----------------------
 
 -- fzf.vim commands' quick access
-vim.keymap.set('n', '<leader>ff', '<cmd>Files<cr>')
-vim.keymap.set('n', '<leader>gf', '<cmd>GitFiles<cr>')
-vim.keymap.set('n', '<LocalLeader>ll', '<cmd>BLines<cr>')
-vim.keymap.set('n', '<leader>fg', '<cmd>Rg<cr>')
+require('fzf-lua').setup() -- defines `FzfLua`
+vim.keymap.set('n', '<leader>ff', FzfLua.files)
+vim.keymap.set('n', '<leader>gf', FzfLua.git_files)
+vim.keymap.set('n', '<LocalLeader>ll', FzfLua.blines)
+vim.keymap.set('n', '<leader>fg', FzfLua.grep_project)
 
--- vim.lsp keybindings to emulate coc.nvim "defaults"
-vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename)
-vim.keymap.set('n', '<LocalLeader>o', vim.lsp.buf.document_symbol) -- outline
+-- LSP keybindings (check :help lsp-defaults)
+vim.keymap.set('n', 'gO', function() -- O ~ outline (i.e. symbols in this buffer)
+    if (vim.lsp.buf_is_attached(0)) then
+        FzfLua.lsp_document_symbols()
+    elseif next(vim.fn.getloclist(0)) ~= nil then -- loclist not empty
+        FzfLua.loclist()
+    else
+        FzfLua.treesitter()
+    end
+end)
+vim.keymap.set('n', 'grr', FzfLua.lsp_references)
+vim.keymap.set('n', 'gss', FzfLua.lsp_workspace_symbols)
+-- toggle inline hints (virtual text can get in the way during text alignment)
 vim.keymap.set('n', '<LocalLeader>i', function()
-    -- toggle inline hints (virtual text can get in the way during text alignment)
     vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 end)
--- open completion menu via tab
+-- open completion menu via tab (check std keybindings via :help ins-completion)
 vim.keymap.set('i', '<TAB>',
     function()
         if (vim.fn.pumvisible()) ~= 0 then -- Pop-Up (completion) Menu open
@@ -207,7 +234,12 @@ vim.keymap.set('i', '<TAB>',
         if (curcol == 0 or curchar == ' ' or curchar == '\t') then
             return '<Tab>' -- insert tab into text
         end
-        return '<C-x><C-i>' -- open completion menu (:help ins-completion)
+        -- open completion menu
+        if (vim.bo.omnifunc ~= "") then
+            return '<C-x><C-o>' -- suggest words from `omnifunc` (~ suggested by LSP)
+        else
+            return '<C-x><C-n>' -- suggest words in current file
+        end
     end,
     {silent = true, expr = true}
 )
@@ -233,14 +265,7 @@ vim.keymap.set('i', '<CR>',
 
 -- my custom keybindings
 -- run `:Rg` on selection
-vim.keymap.set('v', '<leader>fg', function()
-    local orig_s = vim.fn.getreg('s')
-    vim.cmd('normal! "sy') -- yank selection into @s
-    local selection = vim.fn.getreg('s')
-    selection = vim.fn.escape(selection, '{}[]()*|:.')
-    vim.cmd.Rg(selection)
-    vim.fn.setreg('s', orig_s) -- restore s' original value
-end)
+vim.keymap.set('v', '<leader>fg', FzfLua.grep_visual)
 vim.keymap.set('n', '<leader>tt', '<cmd>tab split<cr>')
 -- quickly create a scratch buffer
 vim.keymap.set('n', '<leader>ss', '<cmd>new | setl buftype=nofile noswapfile<cr>')
