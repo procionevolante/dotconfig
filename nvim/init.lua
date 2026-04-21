@@ -58,10 +58,12 @@ local ftype_augroup = vim.api.nvim_create_augroup(
 )
 vim.api.nvim_create_autocmd("Filetype", {
     pattern = 'svn',
+    group = ftype_augroup,
     callback = function() vim.opt.textwidth = 72 end -- same as git commits 
 })
 vim.api.nvim_create_autocmd("Filetype", {
     pattern = 'make',
+    group = ftype_augroup,
     -- makefiles must be indented via \t characters, not spaces
     callback = function() vim.opt.expandtab = false end
 })
@@ -120,6 +122,7 @@ require('nvim-treesitter').install(ts_langs)
 local plugins_augroup = vim.api.nvim_create_augroup('plugins_augroup', {})
 vim.api.nvim_create_autocmd("FileType", {
     desc = 'Treesitter autostart hook',
+    group = plugins_augroup,
     pattern = ts_ftypes,
     callback = function()
         vim.treesitter.start() -- use TS for syntax highlighting
