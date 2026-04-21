@@ -7,7 +7,11 @@
 ----------------
 
 vim.opt.number = true
-vim.opt.wrap = true
+-- line wrapping
+vim.opt.wrap = true -- wrap long lines
+vim.opt.showbreak = '  ' -- prepend some spaces to wrapped line portion
+vim.opt.breakindent = true -- wrapped lines inherit indentation lvl from parent
+vim.opt.linebreak = true -- do not wrap in the middle of a word
 -- tabulation
 local tabsize = 4
 vim.opt.shiftwidth = tabsize
