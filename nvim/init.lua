@@ -114,9 +114,9 @@ require("lazy").setup({
 })
 
 -- treesitter cfg
-local ts_langs = { 'bash', 'c', 'c_sharp', 'javascript', 'markdown' }
+local ts_langs = { 'bash', 'c', 'comment', 'c_sharp', 'javascript', 'lua', 'markdown', 'razor' }
 -- note the differences from above
-local ts_ftypes = { 'sh', 'c', 'cs', 'javascript', 'markdown' }
+local ts_ftypes = { 'sh', 'c', 'cs', 'javascript', 'lua', 'markdown', 'razor' }
 require('nvim-treesitter').install(ts_langs)
 local plugins_augroup = vim.api.nvim_create_augroup('plugins_augroup', {})
 vim.api.nvim_create_autocmd("FileType", {
@@ -173,7 +173,7 @@ vim.lsp.config('*', {
     root_markers = { '.git' }, -- .git as a valid root marker
 })
 -- use these LSPs automatically when possible
-vim.lsp.enable({'bashls', 'clangd', 'lua_ls', 'pyright', --[['roslyn_ls',]] 'ts_ls'})
+vim.lsp.enable({'bashls', 'clangd', 'pyright', 'ts_ls'})
 -- configure LSP depending on its capabilities
 local lsp_augroup = vim.api.nvim_create_augroup('lsp_cfg', {})
 vim.api.nvim_create_autocmd("LspAttach", {
