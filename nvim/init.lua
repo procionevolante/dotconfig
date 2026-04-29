@@ -28,15 +28,13 @@ vim.opt.showcmd = true
 vim.opt.laststatus = 2
 -- display ruler (column and line number on window' bottom-right)
 vim.opt.ruler = true
--- highlight search
-vim.opt.hlsearch = true
+-- searching
+vim.opt.hlsearch = true -- highlight matches
 -- ignore case when searching only lowercase letter. override with \C / \c
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
--- search while typing
-vim.opt.incsearch = true
--- show search count
-vim.opt.shortmess:remove({'S'})
+vim.opt.ignorecase = true -- | ignore case when search pattern is all lowercase
+vim.opt.smartcase = true  -- | (can be ovverridden with \C or \c in pattern)
+vim.opt.incsearch = true -- search while typing
+vim.opt.shortmess:remove({'S'}) -- show search count
 -- make mouse work in normal and visual mode
 vim.opt.mouse = 'nv'
 -- set terminal title to filename
