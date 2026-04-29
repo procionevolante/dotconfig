@@ -112,9 +112,9 @@ require("lazy").setup({
 })
 
 -- treesitter cfg
-local ts_langs = { 'bash', 'c', 'comment', 'c_sharp', 'javascript', 'lua', 'markdown', 'razor' }
+local ts_langs = { 'bash', 'c', 'comment', 'c_sharp', 'javascript', 'lua', 'markdown', 'matlab', 'razor' }
 -- note the differences from above
-local ts_ftypes = { 'sh', 'c', 'cs', 'javascript', 'lua', 'markdown', 'razor' }
+local ts_ftypes = { 'sh', 'c', 'cs', 'javascript', 'lua', 'markdown', 'matlab', 'razor' }
 require('nvim-treesitter').install(ts_langs)
 local plugins_augroup = vim.api.nvim_create_augroup('plugins_augroup', {})
 vim.api.nvim_create_autocmd("FileType", {
