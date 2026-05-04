@@ -201,7 +201,9 @@ vim.api.nvim_create_autocmd("CursorMoved", {
 ----------------------
 
 -- fzf.vim commands' quick access
-require('fzf-lua').setup() -- defines `FzfLua`
+require('fzf-lua').setup({ -- defines `FzfLua`
+    files = { no_ignore = true }, -- show ignored files by default
+})
 vim.keymap.set('n', '<leader>ff', FzfLua.files)
 vim.keymap.set('n', '<leader>gf', FzfLua.git_files)
 vim.keymap.set('n', '<LocalLeader>ll', FzfLua.blines)
