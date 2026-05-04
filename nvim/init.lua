@@ -270,6 +270,11 @@ vim.keymap.set('n', '<leader>tt', '<cmd>tab split<cr>')
 -- quickly create a scratch buffer
 vim.keymap.set('n', '<leader>ss', '<cmd>new | setl buftype=nofile noswapfile<cr>')
 
+-- commands
+vim.api.nvim_create_user_command('Diagnostics', function()
+    FzfLua.diagnostics_document()
+end, { desc = "See this file's diagnostic info (more at |diagnostic.txt|)" })
+
 -- workplace options
 --------------------
 
