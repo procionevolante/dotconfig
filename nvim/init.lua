@@ -47,6 +47,8 @@ vim.opt.splitbelow = true
 vim.opt.updatetime = 500
 -- completion options
 vim.opt.completeopt = {'menuone', 'popup', 'noinsert', 'fuzzy'}
+vim.opt.winborder = 'rounded' -- rounded border in floating windows
+vim.opt.pumborder = 'rounded' -- rounded border in pop-up menu
 -- Don't bother tools which don't save text files properly (like eclipse)
 vim.opt.fixeol = false
 -- filetype-specific options tweaking
