@@ -210,7 +210,8 @@ vim.keymap.set('n', '<LocalLeader>ll', FzfLua.blines)
 vim.keymap.set('n', '<leader>fg', FzfLua.grep_project)
 
 -- LSP keybindings (check :help lsp-defaults)
-vim.keymap.set('n', 'gO', function() -- O ~ outline (i.e. symbols in this buffer)
+-- @brief Try with a moltitude of methods to show a document outline to the user
+local function showOutline()
     if (vim.lsp.buf_is_attached(0)) then
         FzfLua.lsp_document_symbols()
     elseif next(vim.fn.getloclist(0)) ~= nil then -- loclist not empty
@@ -218,7 +219,13 @@ vim.keymap.set('n', 'gO', function() -- O ~ outline (i.e. symbols in this buffer
     else
         FzfLua.treesitter()
     end
-end)
+end
+vim.keymap.set('n', 'gO', showOutline, -- O ~ outline (i.e. symbols in this buffer)
+    { desc = 'Show outline of current buffer using FZF-LUA' }
+)
+vim.keymap.set('n', '<LocalLeader>o', showOutline,
+    { desc = 'Show outline of current buffer using FZF-LUA' }
+)
 vim.keymap.set('n', 'grr', FzfLua.lsp_references)
 vim.keymap.set('n', 'gss', FzfLua.lsp_workspace_symbols)
 -- toggle inline hints (virtual text can get in the way during text alignment)
