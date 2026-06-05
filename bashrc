@@ -33,7 +33,6 @@ if command -v fzf &> /dev/null; then
     eval "$(fzf --bash)"
 fi
 
-
 # let any key, not just ^Q, unfreeze terminal output stopped by ^S
 # see also https://unix.stackexchange.com/questions/12107
 stty ixany
@@ -43,6 +42,10 @@ stty ixany
 
 # some decent default options for the less pager
 export LESS='iFR'
+# make less -F handle multiple-lines prompt (won't handle \\n so avoid it)
+LESS_SHELL_LINES="${PS1//\n/$'\n'}"
+LESS_SHELL_LINES="${LESS_SHELL_LINES//[^$'\n']/}"
+export LESS_SHELL_LINES="$((${#LESS_SHELL_LINES} + 1))"
 # shell history configuration
 export HISTCONTROL=ignorespace
 export HISTSIZE=10000
