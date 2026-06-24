@@ -27,22 +27,29 @@ config.keys = {
 }
 
 -- styling
-config.color_scheme = 'Monokai Vivid'
-config.colors = {
-    foreground = '#fbfbfb',
-    background = '#000000',
 
-    cursor_bg = '#ffffff',
-    cursor_fg = '#000000',
-}
--- make ANSI "blue" a little brighter for readability:
--- borrow its definition from mintty's
--- [hemlholtz theme](https://github.com/mintty/mintty/blob/master/themes/helmholtz)
-local blue_idx = 5
-config.colors.ansi = wezterm.get_builtin_color_schemes()[config.color_scheme].ansi
-config.colors.brights = wezterm.get_builtin_color_schemes()[config.color_scheme].brights
-config.colors.ansi[blue_idx] = '#005dff'
-config.colors.brights[blue_idx] = '#7d97ff'
+-- use light or dark theme according to current OS theme
+-- (& autoswitch when OS theme changes, usually)
+if wezterm.gui.get_appearance():find('Dark') then
+    config.color_scheme = 'Monokai Vivid'
+    config.colors = {
+        foreground = '#fbfbfb',
+        background = '#000000',
+
+        cursor_bg = '#ffffff',
+        cursor_fg = '#000000',
+    }
+    -- make ANSI "blue" a little brighter for readability:
+    -- borrow its definition from mintty's
+    -- [hemlholtz theme](https://github.com/mintty/mintty/blob/master/themes/helmholtz)
+    local blue_idx = 5
+    config.colors.ansi = wezterm.get_builtin_color_schemes()[config.color_scheme].ansi
+    config.colors.brights = wezterm.get_builtin_color_schemes()[config.color_scheme].brights
+    config.colors.ansi[blue_idx] = '#005dff'
+    config.colors.brights[blue_idx] = '#7d97ff'
+else
+    config.color_scheme = 'Monokai (light) (terminal.sexy)'
+end
 config.enable_scroll_bar = false
 config.enable_tab_bar = false
 config.font = wezterm.font('Cascadia Mono')
