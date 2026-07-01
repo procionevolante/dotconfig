@@ -15,8 +15,11 @@
 	slog = log --oneline
     # use `delta` (https://dandavison.github.io/delta) as pager for
     # various commands to have syntax highlighting
+    # s- variants for side-by-side diff
     delta = -c core.pager=delta diff
     ddi = delta
+    sdelta = -c core.pager='delta --side-by-side' diff
+    sddi = sdelta
     dblame = -c core.pager=delta blame
 [merge]
 	ff = only
