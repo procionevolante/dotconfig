@@ -16,6 +16,12 @@ vim.opt.listchars:append({ -- if wrapping, use markers for not-visible texttext
     precedes = '<',
     extends = '>',
 })
+-- show trailing spaces
+vim.opt.list = true
+vim.opt.listchars:append({
+    tab = '  ', -- do not print text for tabs (i.e. use a sequence of ' ')
+    trail = '-', -- trailing spaces are shown as dim '-' characters
+})
 -- tabulation
 local tabsize = 4
 vim.opt.shiftwidth = tabsize
