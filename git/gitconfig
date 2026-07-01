@@ -23,3 +23,4 @@
     dblame = -c core.pager=delta blame
 [merge]
 	ff = only
+	tool = nvimdiff2
