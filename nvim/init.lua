@@ -173,7 +173,9 @@ vim.lsp.config('*', {
     root_markers = { '.git' }, -- .git as a valid root marker
 })
 -- use these LSPs automatically when possible
-vim.lsp.enable({'bashls', 'clangd', 'pyright', 'ts_ls'})
+vim.lsp.enable({
+    'bashls', 'clangd', 'pyright', 'tinymist', 'ts_ls',
+})
 -- configure LSP depending on its capabilities
 local lsp_augroup = vim.api.nvim_create_augroup('lsp_cfg', {})
 vim.api.nvim_create_autocmd("LspAttach", {
