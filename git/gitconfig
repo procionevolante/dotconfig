@@ -24,3 +24,6 @@
 [merge]
 	ff = only
 	tool = nvimdiff2
+[hook "no-TODOs_FIXMEs"]
+    event = pre-commit
+    command = ~/src/dotconfig/git/hook-pre-commit-no-TODO
