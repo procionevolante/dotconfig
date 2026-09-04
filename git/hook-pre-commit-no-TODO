@@ -11,6 +11,15 @@ BEGIN {
     SEARCHING_FNAME = 0
     SEARCHING_MATCH = 1
 
+    if (ENVIRON["COLUMNS"]) {
+        MAX_GREP_COLUMNS = 3 * ENVIRON["COLUMNS"]
+        if (MAX_GREP_COLUMNS < 20) {
+            MAX_GREP_COLUMNS = 20
+        }
+    } else {
+        MAX_GREP_COLUMNS = 300
+    }
+
     state = SEARCHING_FNAME
     cmd = "git diff --staged -p -U0"
     forbidden_found = 0 # to print header only once & set exit status
@@ -33,7 +42,8 @@ BEGIN {
                     printf("\n* %s:\n", fname)
                     fname_printed = 1
                 }
-                print($0)
+
+                print_match($0)
             }
         }
     }
@@ -44,4 +54,30 @@ BEGIN {
     }
 
     exit(forbidden_found)
+}
+
+function print_match(str) {
+    # if the line is short we can just print all of it
+    if (length(str) <= MAX_GREP_COLUMNS) {
+        print(str)
+        return
+    }
+
+    # handle long lines
+    # NOTE: only printing 1st match to keep the algorithm somewhat simple
+
+    match(str, forbidden_regex)
+    if (RSTART + RLENGTH <= MAX_GREP_COLUMNS) {
+        # match is near the line start: truncate the end
+        print(substr(str, 1, MAX_GREP_COLUMNS) "... (truncated)")
+    } else if (RSTART + RLENGTH > length(str) - (MAX_GREP_COLUMNS / 2)){
+        # match is near the line end: truncate the start
+        print(substr(str, 1, 1) "... (truncated) ..." \
+              substr(str, length(str) - MAX_GREP_COLUMNS))
+    } else {
+        # match is in between the line: truncate both start & end
+        print(substr(str, 1, 1) "... (truncated) ..." \
+              substr(str, RSTART - (MAX_GREP_COLUMNS / 2), MAX_GREP_COLUMNS) \
+              "... (truncated)")
+    }
 }
